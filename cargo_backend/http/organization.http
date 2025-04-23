@@ -1,0 +1,65 @@
+@localUrl = http://localhost:8080/api
+@baseUrl = 
+@accessToken=
+
+### login
+POST {{localUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "phone": "86662422",
+  "password": "admin$123"
+}
+
+### register
+POST {{localUrl}}/organization/create
+Content-Type: application/json
+
+{
+  "name": "test 001",
+  "slug": "test 001",
+  "phone": "0001",
+  "address": "CHD tedst address",
+  "email": "test@gamil.com",
+  "workingHours": "09:00-18:00",
+  "socialLinks": {
+    "name": "facebook",
+    "url": "https://facebook.com/examplePage"
+  },
+  "logoUrl": "https://example.com/logo.png"
+}
+
+### update
+PUT {{localUrl}}/organization/3
+Content-Type: application/json
+
+{
+  "name": "test 001 changed",
+  "slug": "test 001",
+  "phone": "0001",
+  "phone1": "0001",
+  "national": "Монгол",
+  "address": "CHD tedst address",
+  "email": "test@gamil.com",
+  "timetable": "09:00-18:00",
+  "description": "Тэст тайлбар",
+  "links": {
+    "name": "facebook",
+    "url": "https://facebook.com/examplePage"
+  },
+  "logoUrl": "https://example.com/logo.png"
+}
+### get
+GET {{localUrl}}/organization/1
+Content-Type: application/json
+
+
+### find-all
+GET {{localUrl}}/organization
+Content-Type: application/json
+{
+  "filter": "",
+  "page": 1,
+  "size": 10,
+  
+}

@@ -1,0 +1,25 @@
+{
+  "name": "cargo_mono",
+  "version": "1.0.0",
+  "workspaces": {
+    "packages": [
+      "cargo_backend",
+      "cargo_front"
+    ]
+  },
+  "description": "cargo app mono",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sumbe0119/cargo_mono.git"
+  },
+  "author": "Sumbe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sumbe0119/cargo_mono/issues"
+  },
+  "homepage": "https://github.com/Sumbe0119/cargo_mono#readme"
+}

@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input,
+textarea {
+  touch-action: manipulation;
+}
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.simple-container {
+  max-width: 728px;
+  margin: 0 auto;
+}
+
+.custom-min-h-screen {
+  height: calc(100vh - 190px);
+}

@@ -1,0 +1,27 @@
+@localUrl = http://localhost:8080/api
+@baseUrl = 
+@accessToken=
+
+### login
+POST {{localUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "phone": "86662422",
+  "password": "admin$123"
+}
+
+### create
+POST {{localUrl}}/orgMember
+Content-Type: application/json
+
+{
+  "userId": 12,
+  "orgId": 1,
+  "role": "MEMBER"
+}
+### create
+DELETE  {{localUrl}}/orgMember/12
+Content-Type: application/json
+
+

@@ -1,0 +1,77 @@
+@localUrl = http://localhost:8080/api
+@baseUrl = 
+@accessToken=
+
+### login
+POST {{localUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "phone": "86662422",
+  "password": "admin$123"
+}
+
+### create
+POST {{localUrl}}/warehouse
+Content-Type: application/json
+
+{
+  "organizationId": 1,
+  "name": "Darkhan Main Warehouse 1",
+  "address": "Industrial District 3",
+  "region": "Ulaanbaatar",
+  "zipcode": "17042",
+  "type": "NORMAL",
+  "totalCapacity": 15000,
+  "contactInfo": {
+    "phone": "99112233",
+    "email": "warehouse@company.mn"
+  },
+  "operatingHours": {
+    "weekdays": "08:00-18:00",
+    "weekends": "09:00-15:00"
+  },
+  "currency": {
+    "kg": 3000,
+    "m3": 400
+  }
+}
+
+### update
+PUT {{localUrl}}/warehouse/8
+Content-Type: application/json
+
+{
+  "organizationId": 1,
+  "name": "Ulaanbaatar Main Warehouse",
+  "address": "ХАН УУЛ дүүрэг",
+  "region": "Ulaanbaatar",
+  "zipCode": "17042",
+  "type": "NORMAL",
+  "totalCapacity": 15000,
+  "contactInfo": {
+    "phone": "99112233",
+    "email": "warehouse@company.mn"
+  },
+  "operatingHours": {
+    "weekdays": "08:00-18:00",
+    "weekends": "09:00-15:00"
+  },
+  "currency": {
+    "kg": 2000,
+    "m3": 450
+  }
+}
+### get
+GET {{localUrl}}/warehouse/10
+Content-Type: application/json
+
+
+### find-all
+GET {{localUrl}}/warehouse?search=&state=ACTIVE&page=1&size=10
+
+
+### delte
+DELETE  {{localUrl}}/warehouse/9
+Content-Type: application/json
+

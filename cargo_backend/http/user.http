@@ -1,0 +1,27 @@
+@localUrl = http://localhost:8080/api
+@baseUrl = 
+@accessToken=
+
+### login
+POST {{localUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "phone": "86662422",
+  "password": "admin$123"
+}
+
+### register
+POST {{localUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "prefix":"976",
+  "lastName":"Төгөлдөр",
+  "firstName":"Сүмбэ",
+  "phone": "86662422",
+  "password": "admin$123"
+}
+### register
+GET {{localUrl}}/auth/info
+Content-Type: application/json
