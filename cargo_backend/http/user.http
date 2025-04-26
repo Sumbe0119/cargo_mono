@@ -11,6 +11,10 @@ Content-Type: application/json
   "password": "admin$123"
 }
 
+### get user
+GET {{localUrl}}/auth/user/1
+Content-Type: application/json
+
 ### register
 POST {{localUrl}}/auth/register
 Content-Type: application/json

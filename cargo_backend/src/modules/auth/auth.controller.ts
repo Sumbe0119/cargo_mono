@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Res, HttpException, HttpStatus, Logger, UseGuards, Req, Put, HttpCode } from '@nestjs/common';
+import { Body, Controller, Post, Get, Res, HttpException, HttpStatus, Logger, UseGuards, Req, Put, HttpCode, Param } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { AuthDto, AuthForgetInputDto, AuthFrontDto, AuthOtpDto, AuthRegisterDto } from './dto/create-auth.dto';
@@ -35,6 +35,10 @@ export class AuthController {
     // res.send({ success: true, user });
   }
 
+  @Get('user/:id')
+  public async user(@Param('id') id: string) {
+    return this.authService.user(+id);
+  }
   @Post('register')
   public async regisiter(@Body() input: AuthRegisterDto, @Res() res: Response) {
 

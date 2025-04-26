@@ -113,8 +113,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <UserInfoEditModal onClose={() => setEdit(false)} open={edit} />
-      <AddressModal onClose={() => setAddress(false)} open={address} />
+      {edit && <UserInfoEditModal onClose={() => setEdit(false)} open={edit} />}
+      {address && <AddressModal onClose={() => setAddress(false)} open={address} />}
     </>
   );
 };

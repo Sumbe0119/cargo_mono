@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### register
-POST {{localUrl}}/organization/create
+POST {{localUrl}}/organization
 Content-Type: application/json
 
 {

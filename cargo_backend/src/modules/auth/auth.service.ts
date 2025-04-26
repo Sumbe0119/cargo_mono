@@ -32,7 +32,6 @@ export class AuthService {
   
 
   public async login(dto: AuthDto): Promise<any> {
-    
     const user = await this.userService.getUser({
         phone: dto.phone,
         state: CommonState.ACTIVE,
@@ -40,8 +39,10 @@ export class AuthService {
     });
     
     if (!user) {
-      throw new HttpException('Нэвтрэх нэр эсвэл нууц үг буруу байна', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Бүртгэлтэй хэрэглэгч байхгүй байна', HttpStatus.BAD_REQUEST);
     }
+
+    // throw new HttpException('Нэвтрэх нэр эсвэл нууц үг буруу байна', HttpStatus.BAD_REQUEST);
     if (!user.validPassword(dto.password)) {
       throw new HttpException('Нууц үг буруу байна', 401);
     }    
@@ -52,6 +53,18 @@ export class AuthService {
     //   access_token: await this.jwtService.signAsync(payload),
     // };
 
+  }
+
+  public async user(id: number): Promise<any> {
+    const user = await this.userService.getUser({
+        id: id,
+        state: CommonState.ACTIVE,
+    });
+    
+    if (!user) {
+      throw new HttpException('Бүртгэлтэй хэрэглэгч байхгүй байна', HttpStatus.BAD_REQUEST);
+    }
+    return user
   }
 
   public async register(input: AuthRegisterDto): Promise<any> {

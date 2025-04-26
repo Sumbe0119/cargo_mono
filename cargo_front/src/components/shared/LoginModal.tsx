@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "./Modal";
-import { BoxIcon } from "../assets/icons";
-import { getFormatMoney } from "../utils/common";
 import CustomInput from "./CustomInput";
 import CustomButton from "./CustomButton";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../api";
 
 interface Props {
   open: boolean;
@@ -12,10 +12,26 @@ interface Props {
 }
 
 const LoginModal = ({ open, onClose }: Props) => {
+  const [user, setUser] = useState({ name: '', password: '' })
+  
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: login,
+    onSuccess: (data: any) => {
+      if (data) {
+        localStorage.setItem('user', JSON.stringify(data))
+        onClose();
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  })
+
   const handleSubmit = () => {
-    onClose();
-    toast.success(`Сайн байна уу ${`USER`}`);
+    mutate({phone: user.name, password: user?.password })
   };
+
   return (
     <Modal open={open} onClose={() => onClose()}>
       <div className="block xs:w-[310px] lg:w-[460px] p-6">
@@ -25,13 +41,14 @@ const LoginModal = ({ open, onClose }: Props) => {
         <div className="flex-col flex space-y-5 w-full">
           <CustomInput
             placeholder="Утасны дугаар"
-            onChange={() => console.info("object")}
-            value={""}
+            onChange={(val) => setUser({...user, name: val })}
+            value={user.name}
           />
           <CustomInput
             placeholder="Нууц үг"
-            onChange={() => console.info("object")}
-            value={""}
+            type= 'password'
+            onChange={(val) => setUser({...user,password:val })}
+            value={user.password}
           />
           <div className="pt-2 w-full space-y-3">
             <p className="text-sm font-regular text-dark/80">
@@ -41,7 +58,7 @@ const LoginModal = ({ open, onClose }: Props) => {
               </span>
             </p>
             <CustomButton
-              loading={false}
+              loading={isPending}
               className="w-full"
               onClick={() => handleSubmit()}
               title="Нэвтрэх"
