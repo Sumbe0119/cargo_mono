@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  shop_api:
+    image: cargo_api:latest
+    container_name: cargo_api
+    volumes:
+      - .env:/app/.env
+      - ./uploads:/app/uploads
+      - ./logs:/app/build/logs

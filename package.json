@@ -1,10 +1,12 @@
 {
   "name": "cargo_mono",
   "version": "1.0.0",
+  "private": true,
   "workspaces": {
     "packages": [
       "cargo_backend",
-      "cargo_front"
+      "cargo_front",
+      "cargo_admin"
     ]
   },
   "description": "cargo app mono",
