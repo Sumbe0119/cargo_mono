@@ -30,11 +30,11 @@ ENV TZ=Asia/Ulaanbaatar
 
 
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/dist ./dist
 COPY package.json ./
 
 # --- .env should be mounted to /app/.env
 USER node
 
 EXPOSE 3001
-CMD [ "node", "./build/index.js"]
+CMD ["node", "dist/index.js"]
