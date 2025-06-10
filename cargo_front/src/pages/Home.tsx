@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import CustomInput from "../components/shared/CustomInput";
 import CustomButton from "../components/shared/CustomButton";
-import {
-  AirIcon,
-  ArrowIcon,
-  BoxIcon,
-  CalculateIcon,
-  WareHouseIcon,
-} from "../components/assets/icons";
 import CustomSelect from "../components/shared/CustomSelect";
 import WarnModal from "../components/shared/WarnModal";
 import toast from "react-hot-toast";
@@ -33,28 +26,6 @@ const Home = () => {
                 Түргэн шуурхай найдвартай үйлчилгээг эрхэмлэнэ
               </span>
             </h1>
-            {/* <div className="flex items-center gap-4">
-              <div className="h-11 w-11 bg-primary/20 rounded-full flex items-center justify-center">
-                <span className={`stroke-2 stroke-primary`}>
-                  <WareHouseIcon size="16" />
-                </span>
-              </div>
-              <div className="h-11 w-11 bg-primary/20 rounded-full flex items-center justify-center">
-                <span className={`stroke-2 stroke-primary`}>
-                  <BoxIcon size="16" />
-                </span>
-              </div>
-              <div className="h-11 w-11 bg-primary/20 rounded-full flex items-center justify-center">
-                <span className={`text-primary`}>
-                  <AirIcon size="16" />
-                </span>
-              </div>
-              <div className="h-11 w-11 bg-primary/20 rounded-full flex items-center justify-center">
-                <span className={`stroke-2 stroke-primary`}>
-                  <WareHouseIcon size="16" />
-                </span>
-              </div>
-            </div> */}
             <div className="flex flex-col gap-2">
               <h1 className="text-base font-medium text-primary">
                 Дэлгүүрийн хаяг холбох

@@ -40,7 +40,7 @@ const Order = () => {
             );
           })}
         </div>
-        <div className="grid xs:grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="grid xs:grid-cols-1 lg:grid-cols-2 gap-3">
           {[1, 2, 3, 4, 5, 6].map((index) => {
             return (
               <div

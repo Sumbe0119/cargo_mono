@@ -19,7 +19,7 @@ const CalculateHeader = ({
       {/* DESKTOP START */}
       <div className="xs:hidden lg:flex flex-col gap-6">
         <div
-          className={`group/item grid xs:grid-cols-1 lg:grid-cols-3 xs:gap-3 lg:gap-6 cursor-pointer`}
+          className={`group/item grid xs:grid-cols-1 lg:grid-cols-2 xs:gap-3 lg:gap-6 cursor-pointer`}
         >
           <div
             className={`border border-light rounded-xl hover:border-primary px-4 h-20 flex items-center justify-between`}
@@ -51,34 +51,11 @@ const CalculateHeader = ({
               <div
                 className={`flex items-center gap-1 text-base font-semibold text-black leading-4`}
               >
-                1м3-с доош ачаа
+                1м3 ачаа
               </div>
               <div className={`text-dark font-regular text-sm`}>
                 {" "}
                 {getFormatMoney(Below1m3)}
-              </div>
-            </div>
-            <div
-              className={`flex-none bg-light/50 group-hover/item:bg-primary/10 w-9 h-9 rounded-full flex items-center justify-center`}
-            >
-              <span
-                className={`stroke-2 stroke-black group-hover/item:stroke-primary`}
-              >
-                <BoxIcon size="16" />
-              </span>
-            </div>
-          </div>
-          <div
-            className={`border border-light rounded-xl hover:border-primary px-4 h-20 flex items-center justify-between`}
-          >
-            <div className={`grid`}>
-              <div
-                className={`flex items-center gap-1 text-base font-semibold text-black leading-4`}
-              >
-                1м3-с дээш ачаа
-              </div>
-              <div className={`text-dark font-regular text-sm`}>
-                {getFormatYuan(Above1m3)}
               </div>
             </div>
             <div
