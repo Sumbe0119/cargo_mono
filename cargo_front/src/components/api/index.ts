@@ -9,12 +9,12 @@ const axiosInstance = axios.create({
 })
 
 export async function login(body: any) {
-  const response = await axiosInstance.post('/auth/login', body)
+  const response = await axiosInstance.post('/api/auth/login', body)
   return response.data
 }
 
 
 export async function fetchUser({ id }: { id: any }) {
-  const response = await axiosInstance.get(`/auth/user/${id}`)
+  const response = await axiosInstance.get(`/api/auth/user/${id}`)
   return response.data
 }

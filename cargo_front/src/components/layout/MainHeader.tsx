@@ -18,7 +18,7 @@ const MainHeader = () => {
   const [drawer, setDrawer] = useState(false)
   const data = localStorage.getItem('user')
   const user = data ? JSON.parse(data) : null
-  console.info("🚀 ~ MainHeader ~ user:", user)
+  // console.info("🚀 ~ MainHeader ~ user:", user)
   const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
   

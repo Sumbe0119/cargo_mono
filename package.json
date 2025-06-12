@@ -1,14 +1,13 @@
 {
   "name": "cargo_mono",
-  "version": "1.0.0",
   "private": true,
   "workspaces": {
     "packages": [
       "cargo_backend",
-      "cargo_front",
-      "cargo_admin"
+      "cargo_front"
     ]
   },
+  "version": "1.0.0",
   "description": "cargo app mono",
   "main": "index.js",
   "devDependencies": {
@@ -17,23 +16,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "prettier": "^3.4.2",
-    "source-map-support": "^0.5.21",
+    "source-map-support": "^0.5.20",
     "typescript": "^5.7.3"
-  },
-  "scripts": {
-    "lint": "yarn workspaces run lint",
-    "build": "yarn workspaces run build",
-    "wsi": "yarn workspaces info",
-    "cov": "yarn workspaces run test:cov"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Sumbe0119/cargo_mono.git"
-  },
-  "author": "Sumbe",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Sumbe0119/cargo_mono/issues"
-  },
-  "homepage": "https://github.com/Sumbe0119/cargo_mono#readme"
+  }
 }

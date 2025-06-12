@@ -1,40 +1,32 @@
-# ---------- Base --------------
-FROM node:18-alpine as base
-WORKDIR /app
+### BUild
+FROM node:20-alpine as build
 
+WORKDIR /usr/src/app
 
-
-# ---------- Builder --------------
-FROM base as builder
-
-COPY package.json tsconfig.json ./
-COPY ./src ./src
-
-RUN npm install 
-RUN npm run build --production
-
-# remove dev dependencies
-RUN npm prune --production
-
-#RUN /usr/local/bin/node-prune
-
-
-# ---------- Release  --------------
-FROM base as release
-
-RUN apk add --no-cache tzdata \
-    && addgroup --gid 1024 mygroup \
-    && adduser node mygroup
-
-ENV TZ=Asia/Ulaanbaatar
-
-
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
 COPY package.json ./
 
-# --- .env should be mounted to /app/.env
-USER node
+RUN yarn global add rimraf @nestjs/cli
 
-EXPOSE 3001
-CMD ["node", "dist/index.js"]
+RUN yarn
+
+COPY . .
+
+# -------Builder-----
+RUN npm run build
+
+
+# re        ove dev dependencies
+RUN npm prune --production
+
+### deploy
+FROM node:20-alpine AS deploy
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/package*.json /usr/src/app/
+COPY --from=build /usr/src/app/yarn.lock /usr/src/app/
+COPY --from=build /usr/src/app/dist/ /usr/src/app/dist/
+COPY --from=build /usr/src/app/node_modules/ /usr/src/app/node_modules/
+
+
+CMD [ "node", "dist/main" ]
