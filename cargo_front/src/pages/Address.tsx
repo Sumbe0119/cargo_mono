@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getImageUrl } from "../components/utils/common";
-import moment from "moment";
 import { ArrowIcon, WareHouseIcon } from "../components/assets/icons";
 
 const Address = () => {

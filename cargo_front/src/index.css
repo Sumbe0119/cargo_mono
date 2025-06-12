@@ -7,7 +7,7 @@ textarea {
   touch-action: manipulation;
 }
 .container {
-  max-width: 1320px;
+  max-width: 998px;
   margin: 0 auto;
 }
 .simple-container {

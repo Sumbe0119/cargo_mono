@@ -44,7 +44,7 @@ const Profile = () => {
               {isMobile ? "Засах" : "Мэдээлэл засварлах"}
             </div>
           </div>
-          <div className="grid xs:grid-cols-1 gap-1 lg:grid-cols-4 px-4">
+          <div className="grid xs:grid-cols-1 gap-1 lg:grid-cols-2 px-4">
             <div className="block space-y-2">
               <label className="text-xs text-dark/70">Овог</label>
               <div className="flex gap-3">
