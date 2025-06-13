@@ -1,9 +1,12 @@
-version: "3.3"
 services:
-  shop_api:
-    image: cargo_api:latest
+  cargo_api:
+    image: tugsuu002/cargomono:latest
     container_name: cargo_api
+    ports:
+      - 8082:8082
+    env_file:
+      - .env
     volumes:
-      - .env:/app/.env
       - ./uploads:/app/uploads
-      - ./logs:/app/build/logs
+    # networks:
+      # - docker_cargo

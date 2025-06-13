@@ -11,7 +11,7 @@ RUN yarn
 
 COPY . .
 
-# -------Builder-----
+# -------Builder-----\
 RUN npm run build
 
 
@@ -22,6 +22,9 @@ RUN npm prune --production
 FROM node:20-alpine AS deploy
 
 WORKDIR /usr/src/app
+
+ENV NODE_ENV=production
+ENV TZ=Asia/Ulaanbaatar
 
 COPY --from=build /usr/src/app/package*.json /usr/src/app/
 COPY --from=build /usr/src/app/yarn.lock /usr/src/app/
