@@ -1,4 +1,4 @@
-@localUrl = http://localhost:8080/api
+@localUrl = http://localhost:8082/api
 @baseUrl = 
 @accessToken=
 
@@ -11,8 +11,19 @@ Content-Type: application/json
   "password": "admin$123"
 }
 
+### list 
+GET  {{localUrl}}/package?trackCode=UB18754856
+
+### check 
+POST {{localUrl}}/package/check
+Content-Type: application/json
+
+{
+  "trackCode": "йыбйыб"
+}
+
 ### create
-POST {{localUrl}}/package-item
+POST {{localUrl}}/package
 Content-Type: application/json
 
 {
@@ -20,12 +31,13 @@ Content-Type: application/json
   "width": 10,
   "weight": 8,
   "length": 50,
-  "registeredById": 12,
-  "warehouseId": 10,
+  "phone": "96268444",
+  "registeredById": 1,
+  "warehouseId": 1,
   "organizationId": 1,
-  "trackCode": "UB18754856",
-  "price": 15000,
-  "notes": "test 2 бараа",
+  "trackCode": "YB35218856",
+  "price": 5000,
+  "notes": "test 1 бараа",
   "isExpress": false,
   "broken": false,
   "deliveryRequested": false

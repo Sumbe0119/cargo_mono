@@ -2,8 +2,8 @@ import { ApiConfig } from './types'
 
 export const defaultConfig: ApiConfig = {
   api: {
-    core: process.env.VITE_CORE_API_URL || 'http://localhost:8080/api',
-    imageUrl: process.env.VITE_IMAGE_API_URL || 'http://localhost:8080/api'
+    core: process.env.VITE_CORE_API_URL || 'http://localhost:8082/api',
+    imageUrl: process.env.VITE_IMAGE_API_URL || 'http://localhost:8082/api'
   },
   withCredentials: false,
 }

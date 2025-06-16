@@ -11,9 +11,6 @@ import {
   UpdateDateColumn,
   Index,
   JoinColumn,
-  BeforeInsert,
-  BeforeUpdate,
-  AfterLoad
 } from 'typeorm';
 
 
@@ -34,6 +31,9 @@ export class PackageItem {
 
   @Column('decimal', { precision: 10, scale: 2, nullable: false })
   length: number;
+
+  @Column({ type: 'text', nullable: false })
+  phone: string;
   
   @ManyToOne(() => OrgMemberEntity, { nullable: false })
   @JoinColumn({ name: 'registered_by_id' })

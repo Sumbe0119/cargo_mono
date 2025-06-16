@@ -1,6 +1,6 @@
 import { CommonState, UserRole } from "src/common/enum";
 import { Organization } from "src/modules/organization/entities/organization.entity";
-import { PackageItem } from "src/modules/package_item/entities/package_item.entity";
+import { PackageItem } from "src/modules/package/entities/package.entity";
 import { UserEntity } from "src/modules/user/entities/user.entity";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 

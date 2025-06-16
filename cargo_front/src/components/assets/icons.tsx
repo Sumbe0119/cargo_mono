@@ -6,7 +6,7 @@ export const SpinnerIcon = () => {
   return (
     <svg
       role="status"
-      className={`h-6 w-6 mr-2  animate-spin fill-[#00A660] text-gray-200 `}
+      className={`h-6 w-6 mr-2  animate-spin fill-[#a62a57] text-white `}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

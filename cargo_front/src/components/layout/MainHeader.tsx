@@ -21,7 +21,6 @@ const MainHeader = () => {
   // console.info("🚀 ~ MainHeader ~ user:", user)
   const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
-  
 
   const renderTitle = () => {
     switch (pathname) {
@@ -42,6 +41,9 @@ const MainHeader = () => {
         <div className="text-sm container mx-auto flex items-center justify-between xs:px-2 2xl:px-0">
           <div className="container flex items-center justify-between">
             <div className="flex items-center gap-6 xs:px-4 lg:px-0">
+              <Link to={`/`}>
+                <img className="h-11" alt="logo" src="./logo.png" />
+              </Link>
               <ul className="xs:hidden lg:flex items-center font-semibold gap-4 divide-x divide-x-dark">
                 <li>
                   <Link
@@ -50,9 +52,9 @@ const MainHeader = () => {
                       pathname === '/' ? 'text-primary stroke-primary' : 'text-black stroke-black'
                     } hover:text-primary flex items-center justify-center text-base`}
                   >
-                    <div className="flex items-center stroke-2 px-3 transition-all hover:stroke-primary">
+                    {/* <div className="flex items-center stroke-2 px-3 transition-all hover:stroke-primary">
                       <HomeIcon />
-                    </div>
+                    </div> */}
                     Нүүр хуудас
                   </Link>
                 </li>
