@@ -45,7 +45,7 @@ const Modal = ({ open, onClose, children }: Props) => {
               leaveTo="opacity-0"
             >
               <DialogPanel
-                className={`rounded-2xl overflow-hidden shadow-card border-x border-interface-borders bg-white mx-auto relative`}
+                className={`xs:rounded-lg lg:rounded-2xl overflow-hidden shadow-card border-x border-interface-borders bg-white mx-auto relative w-full max-w-[460px]`}
               >
                 <div
                   className={`fixed right-[22px] top-[22px] rounded-full h-10 w-10 xs:hidden lg:flex items-center justify-center cursor-pointer hover:opacity-80`}

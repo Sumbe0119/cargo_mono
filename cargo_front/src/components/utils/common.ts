@@ -39,15 +39,13 @@ export const getImageUrl = (image: string) => {
 
 export const getRenderPackageText = (status: ItemStatus) => {
   if (status === ItemStatus.REGISTERED) {
-    return 'Бүртгэж авсан'
+    return 'Бүртгэгдсэн'
   } else if (status === ItemStatus.RECEIVED) {
     return 'УБ агуулах'
-  } else if (status === ItemStatus.FINISHED) {
-    return 'УБ агуулах'
   } else if (status === ItemStatus.SENT) {
-    return 'Замд гарсан'
+    return 'ЭРЭЭН-УБ'
   } else if (status === ItemStatus.DELIVERED) {
-    return 'Хүргэлтэнд гарсан'
+    return 'Хүргэлт'
   } else if (status === ItemStatus.BROKEN) {
     return 'Эвдэрсэн'
   } else if (status === ItemStatus.FINISHED) {

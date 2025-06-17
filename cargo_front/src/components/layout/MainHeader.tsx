@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AddressIcon, ArrowIcon, CalculateIcon, HomeIcon, LoginIcon, MenuIcon, UserIcon } from '../assets/icons'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import LoginModal from '../shared/LoginModal'
 import { useMediaQuery } from 'react-responsive'
 import LeftSideMenu from './LeftSideMenu'
+import OrganizationContext from '../provider/OrganizationProvider'
 
 const menus = [
   // { title: "Бидний тухай", link: "/about" },
@@ -18,7 +19,7 @@ const MainHeader = () => {
   const [drawer, setDrawer] = useState(false)
   const data = localStorage.getItem('user')
   const user = data ? JSON.parse(data) : null
-  // console.info("🚀 ~ MainHeader ~ user:", user)
+  const { org } = useContext(OrganizationContext)
   const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
@@ -44,35 +45,37 @@ const MainHeader = () => {
               <Link to={`/`}>
                 <img className="h-11" alt="logo" src="./logo.png" />
               </Link>
-              <ul className="xs:hidden lg:flex items-center font-semibold gap-4 divide-x divide-x-dark">
-                <li>
-                  <Link
-                    to="/"
-                    className={`transition-all ${
-                      pathname === '/' ? 'text-primary stroke-primary' : 'text-black stroke-black'
-                    } hover:text-primary flex items-center justify-center text-base`}
-                  >
-                    {/* <div className="flex items-center stroke-2 px-3 transition-all hover:stroke-primary">
+              {org ? (
+                <ul className="xs:hidden lg:flex items-center font-semibold gap-4 divide-x divide-x-dark">
+                  <li>
+                    <Link
+                      to="/"
+                      className={`transition-all ${
+                        pathname === '/' ? 'text-primary stroke-primary' : 'text-black stroke-black'
+                      } hover:text-primary flex items-center justify-center text-base`}
+                    >
+                      {/* <div className="flex items-center stroke-2 px-3 transition-all hover:stroke-primary">
                       <HomeIcon />
                     </div> */}
-                    Нүүр хуудас
-                  </Link>
-                </li>
-                {menus?.map((item, index) => {
-                  const isActive = pathname === item?.link
-                  return (
-                    <li key={index}>
-                      <Link
-                        to={item?.link}
-                        // style={{ fontWeight: "400" }}
-                        className={`${isActive ? 'text-primary' : 'text-black'} hover:text-primary transition-text text-base p-4`}
-                      >
-                        {item?.title}
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
+                      Нүүр хуудас
+                    </Link>
+                  </li>
+                  {menus?.map((item, index) => {
+                    const isActive = pathname === item?.link
+                    return (
+                      <li key={index}>
+                        <Link
+                          to={item?.link}
+                          // style={{ fontWeight: "400" }}
+                          className={`${isActive ? 'text-primary' : 'text-black'} hover:text-primary transition-text text-base p-4`}
+                        >
+                          {item?.title}
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : null}
             </div>
             {user ? (
               <Link
@@ -133,7 +136,7 @@ const MainHeader = () => {
       <footer
         className={`${
           ['/', '/calculate', '/address', '/profile'].includes(pathname) ? 'xs:grid' : 'hidden'
-        } grid-cols-4 lg:hidden fixed !bg-white z-10 bottom-0 border-t border-t-light h-16 w-full items-center justify-evenly`}
+        } ${org ? 'grid-cols-4' : 'grid-cols-2'} lg:hidden fixed !bg-white z-10 bottom-0 border-t border-t-light h-16 w-full items-center justify-evenly`}
       >
         <Link to={`/`} className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/' ? 'text-primary' : 'text-dark'}`}>
           <span
@@ -143,33 +146,37 @@ const MainHeader = () => {
           </span>
           Нүүр
         </Link>
-        <Link
-          to={`/calculate`}
-          className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/calculate' ? 'text-primary' : 'text-dark'}`}
-        >
-          <span
-            className={`flex items-center stroke-2 px-4 ${
-              pathname === '/calculate' ? 'stroke-primary' : 'stroke-dark'
-            } transition-all hover:stroke-primary`}
+        {org ? (
+          <Link
+            to={`/calculate`}
+            className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/calculate' ? 'text-primary' : 'text-dark'}`}
           >
-            <CalculateIcon />
-          </span>
-          Тооцоолуур
-        </Link>
-        <Link
-          to={`/address`}
-          className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/address' ? 'text-primary' : 'text-dark'}`}
-        >
-          <span
-            className={`flex items-center stroke-2 px-4 ${
-              pathname === '/address' ? 'stroke-primary' : 'stroke-dark'
-            } transition-all hover:stroke-primary`}
+            <span
+              className={`flex items-center stroke-2 px-4 ${
+                pathname === '/calculate' ? 'stroke-primary' : 'stroke-dark'
+              } transition-all hover:stroke-primary`}
+            >
+              <CalculateIcon />
+            </span>
+            Тооцоолуур
+          </Link>
+        ) : null}
+        {org ? (
+          <Link
+            to={`/address`}
+            className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/address' ? 'text-primary' : 'text-dark'}`}
           >
-            <AddressIcon />
-          </span>
-          Хаяг холбох
-        </Link>
-        {user ? (
+            <span
+              className={`flex items-center stroke-2 px-4 ${
+                pathname === '/address' ? 'stroke-primary' : 'stroke-dark'
+              } transition-all hover:stroke-primary`}
+            >
+              <AddressIcon />
+            </span>
+            Хаяг холбох
+          </Link>
+        ) : null}
+        {!user ? (
           <div
             onClick={() => setVisible(true)}
             className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/address' ? 'text-primary' : 'text-dark'}`}
@@ -195,7 +202,7 @@ const MainHeader = () => {
             >
               <UserIcon size="22" />
             </span>
-            <p className="truncate max-w-[70px]">Профайл</p>
+            <p className="truncate max-w-[70px]">{user?.firstName}</p>
           </Link>
         )}
       </footer>

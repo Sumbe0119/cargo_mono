@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### list 
-GET  {{localUrl}}/package?trackCode=UB18754856
+GET  {{localUrl}}/package
 
 ### check 
 POST {{localUrl}}/package/check

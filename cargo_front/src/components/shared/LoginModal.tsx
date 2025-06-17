@@ -34,9 +34,9 @@ const LoginModal = ({ open, onClose }: Props) => {
 
   return (
     <Modal open={open} onClose={() => onClose()}>
-      <div className="block xs:w-[310px] lg:w-[460px] p-6">
+      <div className="block w-full xs:p-5 lg:p-6">
         <div className="grid gap-2 leading-none mb-6">
-          <h1 className="text-lg font-bold text-primary">Нэвтрэх</h1>
+          <h1 className="xs:text-md lg:text-lg font-bold text-primary">Нэвтрэх</h1>
         </div>
         <div className="flex-col flex space-y-5 w-full">
           <CustomInput

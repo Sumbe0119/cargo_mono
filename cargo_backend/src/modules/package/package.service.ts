@@ -72,6 +72,11 @@ export class PackageItemService {
         trackCode: input.trackCode,
       });
     }
+    if (input.status) {
+      queryBuilder.where('main.status = :status', {
+        status: input.status,
+      });
+    }
 
     const [list, total] = await queryBuilder
       .skip(pagination.offset)

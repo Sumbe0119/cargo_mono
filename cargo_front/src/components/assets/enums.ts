@@ -2,7 +2,6 @@ export enum ElementType {
     PRIMARY = 'PRIMARY',
     SECONDARY = 'SECONDARY',
 }
-
 export enum UserRole {
   SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
@@ -21,4 +20,9 @@ export enum ItemStatus {
   DELIVERED = 'DELIVERED',      // Хүргэлтээр гарсан
   BROKEN = 'BROKEN',            // Эвдэрсэн
   FINISHED = 'FINISHED',        // Дууссан
+}
+export interface EditModalState {
+  visible: boolean
+  id?: number
+  data?: any
 }
