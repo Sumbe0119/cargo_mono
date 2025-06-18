@@ -3,7 +3,7 @@ import 'dayjs/locale/mn'
 import dayLocaleData from 'dayjs/plugin/localeData'
 import ImageUpload from './imageUpload'
 import { useState } from 'react'
-import { Form, Input, Modal, Tooltip } from 'antd'
+import { Form, Input, Modal, notification, Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import axios from 'axios'
 import config from '../config'
@@ -41,7 +41,10 @@ const OrganizationCreate = (props: any) => {
     axios
       .post(`${config.get('API_BASE_URL')}/organization`, JSON.stringify(body), requestConfig)
       .then((res) => {
-        // props.saveCallback()
+        notification.success({
+        message: 'Амжилттай '
+        })
+        props?.hideFunction()
       })
       .catch((err) => errorHandler(err))
   }
