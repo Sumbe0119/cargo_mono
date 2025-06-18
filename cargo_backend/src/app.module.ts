@@ -18,6 +18,7 @@ import { MessageService } from './modules/integrations/message.service';
 import { IpInfoService } from './modules/integrations/ip.info.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { UploadModule } from './modules/upload/upload.module';
 const path = require('path')
  
 
@@ -48,6 +49,7 @@ const path = require('path')
     PackageItemModule,
     UserModule,
     WarehouseModule,
+    UploadModule,
     
   ],
   controllers: [AppController],

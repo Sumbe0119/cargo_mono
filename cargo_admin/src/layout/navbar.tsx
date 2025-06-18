@@ -25,6 +25,12 @@ const menus = [
     url: PagePath.list,
     label: 'list',
     icon: <MenuOutlined />,
+  },
+  {
+    key: 'organization',
+    url: PagePath.organization,
+    label: 'organization',
+    icon: <MenuOutlined />,
   }
 ]
 
