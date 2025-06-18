@@ -1,4 +1,4 @@
-@localUrl = http://localhost:8080/api
+@localUrl = http://localhost:8082/api
 @baseUrl = 
 @accessToken=
 
@@ -33,24 +33,25 @@ Content-Type: application/json
   },
   "currency": {
     "kg": 3000,
-    "m3": 400
+    "m3": 400,
+    "rate": 510
   }
 }
 
 ### update
-PUT {{localUrl}}/warehouse/8
+PUT {{localUrl}}/warehouse/1
 Content-Type: application/json
 
 {
   "organizationId": 1,
-  "name": "Ulaanbaatar Main Warehouse",
-  "address": "ХАН УУЛ дүүрэг",
+  "name": "Нисэх салбар БУМАН төв",
+  "address": "ХУД 21-р хороо Буянт Ухаа Спорт цогцолборын баруун талд",
   "region": "Ulaanbaatar",
-  "zipCode": "17042",
+  "zipcode": "17042",
   "type": "NORMAL",
   "totalCapacity": 15000,
   "contactInfo": {
-    "phone": "99112233",
+    "phone": "96268444",
     "email": "warehouse@company.mn"
   },
   "operatingHours": {
@@ -58,17 +59,18 @@ Content-Type: application/json
     "weekends": "09:00-15:00"
   },
   "currency": {
-    "kg": 2000,
-    "m3": 450
+    "kg": 3000,
+    "m3": 400,
+    "rate": 510
   }
 }
 ### get
-GET {{localUrl}}/warehouse/10
+GET {{localUrl}}/warehouse/1
 Content-Type: application/json
 
 
 ### find-all
-GET {{localUrl}}/warehouse?search=&state=ACTIVE&page=1&size=10
+GET {{localUrl}}/warehouse?orgId=1&state=ACTIVE&page=1&size=10
 
 
 ### delte

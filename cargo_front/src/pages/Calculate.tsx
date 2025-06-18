@@ -1,6 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext, useCallback, useEffect } from "react";
 import CustomInput from "../components/shared/CustomInput";
 import CalculateHeader from "../components/widget/calculate/CalculateHeader";
+import { API } from "../components/api";
+import OrganizationContext from "../components/provider/OrganizationProvider";
+import toast from "react-hot-toast";
 
 interface BoxDimensions {
   width: number;
@@ -9,24 +12,43 @@ interface BoxDimensions {
   weight: number;
 }
 
-const WAREHOUSE = {
-  kg: 3000,
-  m3: 599,
-  name: "Эрээн агуулах",
-  rate: 399
+interface StateType {
+  loading: boolean,
+  data: any
 }
-const Calculate = () => {
 
+const Calculate = () => {
+  const { org } = useContext(OrganizationContext)
   const [dimensions, setDimensions] = useState<BoxDimensions>({
     weight: 0,
     height: 0,
     length: 0,
     width: 0,
   });
-  console.log("🚀 ~ Calculate ~ dimensions:", dimensions)
-
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [state, setState] = useState<StateType>({ loading: false, data: {} })
+
+  const { kg, m3, rate }: any = state?.data?.currency || { kg: 0, width: 0, height: 0, length: 0 }
+
+
+  const fetchOrder = useCallback(async () => {
+    setState({ ...state, loading: true })
+    try {
+      const response = await API.get({ apiVersion: 'core' })(`/warehouse/${org?.id}`)
+      setState({ data: response?.data, loading: false })
+    } catch (error: any) {
+      toast.error(error.message)
+      setState({ ...state, loading: false })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+
+    fetchOrder()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleChange = (field: keyof BoxDimensions, value: string) => {
     if (!/^\d*\.?\d*$/.test(value)) {
@@ -50,19 +72,17 @@ const Calculate = () => {
       (dimensions.height / 100) *
       (dimensions.length / 100) *
       (dimensions.width / 100);
-    const priceByKg = dimensions.weight * WAREHOUSE.kg;
-    const priceByM3 = volumeM3 * (WAREHOUSE.m3 * WAREHOUSE.rate);
+
+    const priceByKg = dimensions?.weight * kg;
+    const priceByM3 = volumeM3 * (m3 * rate);
 
     // 100-рүү бүхэлдэнэ
     return Math.ceil(Math.max(priceByKg, priceByM3) / 100) * 100;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dimensions]);
 
-
-
-
-  // Мөнгөний формат
   const formattedPrice = useMemo(() => {
-    return new Intl.NumberFormat("mn-MN").format(price);
+    return new Intl.NumberFormat("mn-MN").format(price || 0);
   }, [price]);
 
   return (
@@ -70,7 +90,7 @@ const Calculate = () => {
       {/* Агуулах сонгох хэсэг */}
 
       <CalculateHeader
-        warehouse={WAREHOUSE}
+        currency={state?.data?.currency}
         calculatePrice={formattedPrice}
       />
 

@@ -1,17 +1,27 @@
-import { CommonState, WarehouseType } from "src/common/enum";
-import { Organization } from "src/modules/organization/entities/organization.entity";
-import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CommonState, WarehouseType } from 'src/common/enum';
+import { Organization } from 'src/modules/organization/entities/organization.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Warehouse {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'organization_id' ,nullable:true})
+  @Column({ name: 'organization_id', nullable: true })
   organizationId: number;
 
   @ManyToOne(() => Organization, (org) => org.warehouse)
   @Index()
+  @JoinColumn({ name: 'organization_id' })
   organization: Organization;
 
   @Column()
@@ -27,10 +37,10 @@ export class Warehouse {
   @Column({ length: 20, name: 'zip_code', nullable: true })
   zipCode: string;
 
-  @Column({ 
+  @Column({
     type: 'enum',
     enum: WarehouseType,
-    default: WarehouseType.NORMAL
+    default: WarehouseType.NORMAL,
   })
   type: WarehouseType;
 
@@ -39,14 +49,24 @@ export class Warehouse {
   productCount: number;
 
   // Нийт багтаамж
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true, name: 'total_capacity' })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: true,
+    name: 'total_capacity',
+  })
   totalCapacity: number;
 
   // Ажилтны тоо
   @Column({ default: 0, name: 'staff_count' })
   staffCount: number;
 
-  @Column('enum', { enum: CommonState, default: CommonState.ACTIVE, nullable: false })
+  @Column('enum', {
+    enum: CommonState,
+    default: CommonState.ACTIVE,
+    nullable: false,
+  })
   state: CommonState;
 
   @Column({ type: 'jsonb', nullable: true, name: 'contact_info' })
@@ -60,6 +80,7 @@ export class Warehouse {
   currency: {
     kg: number;
     m3: number;
+    rate: number;
   };
 
   @Column({ type: 'jsonb', nullable: true, name: 'operating_hours' })

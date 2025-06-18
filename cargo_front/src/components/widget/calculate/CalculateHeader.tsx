@@ -3,11 +3,11 @@ import { BoxIcon, CarIcon } from "../../assets/icons";
 
 interface Props {
   calculatePrice: any;
-  warehouse: any
+  currency: any
 
 }
 const CalculateHeader = ({
-  calculatePrice, warehouse
+  calculatePrice, currency
 }: Props) => {
 
 
@@ -28,7 +28,7 @@ const CalculateHeader = ({
                 1кг ачаа
               </div>
               <div className={`text-dark font-regular text-sm`}>
-                {getFormatMoney(+warehouse?.kg)}
+                {getFormatMoney(+currency?.kg)}
               </div>
             </div>
             <div
@@ -51,7 +51,7 @@ const CalculateHeader = ({
                 1м3 ачаа
               </div>
               <div className={`text-dark font-regular text-sm`}>
-                {getFormatYuan(Math.ceil((+warehouse?.m3 * warehouse?.rate) / 100) * 100)}
+                {getFormatYuan(Math.ceil(+currency?.m3))}
               </div>
             </div>
             <div

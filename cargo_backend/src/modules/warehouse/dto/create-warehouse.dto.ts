@@ -1,5 +1,14 @@
-import { CommonState, WarehouseType } from "src/common/enum";
-import { IsEnum, IsNotEmpty, IsString, IsNumber, IsObject, ValidateNested, IsOptional, isNumber } from 'class-validator';
+import { CommonState, WarehouseType } from 'src/common/enum';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsObject,
+  ValidateNested,
+  IsOptional,
+  isNumber,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 // Operating Hours DTO
@@ -43,10 +52,9 @@ class ContactInfoDto {
 
 // Create Warehouse DTO
 export class CreateWarehouseDto {
-
   @IsNumber()
   @IsNotEmpty()
-  organizationId: number
+  organizationId: number;
 
   @IsString()
   @IsNotEmpty()
@@ -97,10 +105,13 @@ export class UpdateWarehouseDto extends CreateWarehouseDto {
   @IsNumber()
   @IsOptional()
   staffCount: number;
-
 }
 
 export class WareHouseFilterDto {
+  @IsString()
+  @IsNotEmpty()
+  orgId: string;
+
   @IsOptional()
   @IsString()
   search?: string;
@@ -108,5 +119,4 @@ export class WareHouseFilterDto {
   @IsOptional()
   @IsEnum(CommonState)
   state?: CommonState;
-
 }

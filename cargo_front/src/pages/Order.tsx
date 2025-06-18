@@ -23,19 +23,19 @@ const Order = () => {
 
   const fetchOrder = useCallback(async () => {
     const _filter = queryString.stringify(filter)
-    setState({ loading: true })
+    setState({ ...state, loading: true })
     try {
       const response = await API.get({ apiVersion: 'core' })(`/package${filter.status !== '' ? '?' + _filter : ''}`)
       setState({ list: response?.list, loading: false })
     } catch (error: any) {
       toast.error(error.message)
-      setState({ loading: true })
+      setState({ ...state, loading: false })
     }
   }, [filter])
 
   useEffect(() => {
     fetchOrder()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter])
 
   return (
@@ -46,9 +46,8 @@ const Order = () => {
         <div className="grid xs:grid-cols-2 lg:grid-cols-4 items-center gap-3">
           <div
             onClick={() => setFilter({ status: '' })}
-            className={`group flex items-center justify-center h-8 rounded-lg px-3 cursor-pointer hover:bg-dark transition-all ${
-              filter.status === '' ? 'bg-dark' : 'bg-dark/10'
-            }`}
+            className={`group flex items-center justify-center h-8 rounded-lg px-3 cursor-pointer hover:bg-dark transition-all ${filter.status === '' ? 'bg-dark' : 'bg-dark/10'
+              }`}
           >
             <p
               className={`text-sm font-medium leading-none transition-colors ${filter.status === '' ? 'text-white' : 'text-dark group-hover:text-white'}`}
@@ -62,9 +61,8 @@ const Order = () => {
               <div
                 key={index}
                 onClick={() => setFilter({ status: item.key })}
-                className={`float-right group flex items-center justify-center h-8 rounded-lg px-3 cursor-pointer hover:bg-dark transition-all ${
-                  isActive ? 'bg-dark' : 'bg-dark/10'
-                }`}
+                className={`float-right group flex items-center justify-center h-8 rounded-lg px-3 cursor-pointer hover:bg-dark transition-all ${isActive ? 'bg-dark' : 'bg-dark/10'
+                  }`}
               >
                 <p className={`text-sm font-medium leading-none transition-colors ${isActive ? 'text-white' : 'text-dark group-hover:text-white'}`}>
                   {item.value}
@@ -92,11 +90,11 @@ const Order = () => {
               </div>
             )
           })}
-        </div>:
-        <div className="flex flex-col items-center justify-center py-16 text-dark/50 w-full">
-          <p className="text-sm font-medium text-black">Жагсаалт хоосон байна</p>
-          <p className="text-xs text-dark/40">Одоогоор харуулах мэдээлэл алга байна</p>
-        </div>
+        </div> :
+          <div className="flex flex-col items-center justify-center py-16 text-dark/50 w-full">
+            <p className="text-sm font-medium text-black">Жагсаалт хоосон байна</p>
+            <p className="text-xs text-dark/40">Одоогоор харуулах мэдээлэл алга байна</p>
+          </div>
         }
       </div>
 

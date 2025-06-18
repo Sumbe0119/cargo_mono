@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react'
-import { AddressIcon, ArrowIcon, CalculateIcon, HomeIcon, LoginIcon, MenuIcon, UserIcon } from '../assets/icons'
+import { AddressIcon, ArrowIcon, CalculateIcon, HomeIcon, LoginIcon, UserIcon } from '../assets/icons'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import LoginModal from '../shared/LoginModal'
-import { useMediaQuery } from 'react-responsive'
 import LeftSideMenu from './LeftSideMenu'
 import OrganizationContext from '../provider/OrganizationProvider'
 
@@ -21,20 +20,7 @@ const MainHeader = () => {
   const user = data ? JSON.parse(data) : null
   const { org } = useContext(OrganizationContext)
   const navigate = useNavigate()
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
-  const renderTitle = () => {
-    switch (pathname) {
-      case '/':
-        return 'Нүүр'
-      case '/calculate':
-        return 'Тооцоолуур'
-      case '/address':
-        return 'Хаяг холбох'
-      case '/profile':
-        return 'Профайл'
-    }
-  }
   return (
     <>
       {/* desktop header start */}
@@ -103,29 +89,21 @@ const MainHeader = () => {
       {/* desktop header end */}
       {/* mobile header start */}
 
-      <header className="xs:flex lg:hidden items-center justify-between border-b border-light sticky w-full top-0 z-10 h-[54px] px-4 bg-white">
-        <div
-          onClick={() => navigate(-1)}
-          className={`${(pathname === '/' && 'hidden') ||
-            (pathname === '/calculate' && 'hidden') ||
-            (pathname === '/address' && 'hidden') ||
-            (pathname === '/profile' && 'hidden')
-            } fill-white stroke-1 stroke-black h-9 w-9 flex items-center justify-center border border-light rounded-lg pr-1 cursor-pointer z-20`}
-        >
-          <ArrowIcon size="22" />
-        </div>
-        <p className="text-dm font-semibold text-black">{renderTitle()}</p>
+      <header className='xs:flex lg:hidden items-center justify-between border-b border-light sticky w-full top-0 z-10 h-[54px] px-4 bg-white'>
 
-        {/* <div
-          onClick={() => setDrawer(!drawer)}
-          className={`${
-            ["/", "/calculate", "/address"].includes(pathname)
-              ? "xs:block"
-              : "hidden"
-          }xs:block lg:hidden pr-3`}
-        >
-          <MenuIcon />
-        </div> */}
+        {
+          ['/', '/profile', '/calculate', '/address'].includes(pathname) ? (
+            <Link to={`/`}>
+              <img className="h-10" alt="logo" src="./logo.png" />
+            </Link>
+          ) : <div
+            onClick={() => navigate(-1)}
+            className={`fill-white stroke-1 stroke-black h-9 w-9 flex items-center justify-center border border-light rounded-lg pr-1 cursor-pointer z-20`}
+          >
+            <ArrowIcon size="22" />
+          </div>
+        }
+
       </header>
       {/* mobile header end */}
 
