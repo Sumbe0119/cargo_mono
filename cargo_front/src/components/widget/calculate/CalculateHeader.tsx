@@ -1,19 +1,16 @@
-import React from "react";
 import { getFormatMoney, getFormatYuan } from "../../utils/common";
 import { BoxIcon, CarIcon } from "../../assets/icons";
 
 interface Props {
-  weightPrice: number;
-  Above1m3: number;
-  Below1m3: number;
   calculatePrice: any;
+  warehouse: any
+
 }
 const CalculateHeader = ({
-  Above1m3, // 1м3-ээс дээш үнэ
-  Below1m3, // 1м3-ээс доош үнэ
-  weightPrice, // жингийн үнэ
-  calculatePrice,
+  calculatePrice, warehouse
 }: Props) => {
+
+
   return (
     <>
       {/* DESKTOP START */}
@@ -31,7 +28,7 @@ const CalculateHeader = ({
                 1кг ачаа
               </div>
               <div className={`text-dark font-regular text-sm`}>
-                {getFormatMoney(weightPrice)}
+                {getFormatMoney(+warehouse?.kg)}
               </div>
             </div>
             <div
@@ -54,8 +51,7 @@ const CalculateHeader = ({
                 1м3 ачаа
               </div>
               <div className={`text-dark font-regular text-sm`}>
-                {" "}
-                {getFormatMoney(Below1m3)}
+                {getFormatYuan(Math.ceil((+warehouse?.m3 * warehouse?.rate) / 100) * 100)}
               </div>
             </div>
             <div
@@ -97,7 +93,7 @@ const CalculateHeader = ({
       </div>
 
       {/* MOBILE END */}
-    
+
     </>
   );
 };

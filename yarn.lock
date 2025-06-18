@@ -4683,7 +4683,7 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001718:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001722.tgz"
   integrity sha512-DCQHBBZtiK6JVkAGw7drvAMK0Q0POD/xZvEmDp6baiMMP6QXXk9HpD6mNYBZWhOPG6LvIDb82ITqtWjhDckHCA==
 
-"cargo_backend@file:/home/sumbe/work/cargo_mono/cargo_backend":
+"cargo_backend@file:/root/work/cargo_mono/cargo_backend":
   version "0.0.1"
   resolved "file:cargo_backend"
   dependencies:
@@ -4708,7 +4708,7 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001702, caniuse-lite@^1.0.30001718:
     rxjs "^7.8.1"
     typeorm "^0.3.22"
 
-"cargo_front@file:/home/sumbe/work/cargo_mono/cargo_front":
+"cargo_front@file:/root/work/cargo_mono/cargo_front":
   version "0.1.0"
   resolved "file:cargo_front"
   dependencies:

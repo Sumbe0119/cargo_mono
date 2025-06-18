@@ -45,37 +45,35 @@ const MainHeader = () => {
               <Link to={`/`}>
                 <img className="h-11" alt="logo" src="./logo.png" />
               </Link>
-              {org ? (
-                <ul className="xs:hidden lg:flex items-center font-semibold gap-4 divide-x divide-x-dark">
-                  <li>
-                    <Link
-                      to="/"
-                      className={`transition-all ${
-                        pathname === '/' ? 'text-primary stroke-primary' : 'text-black stroke-black'
+
+              <ul className="xs:hidden lg:flex items-center font-semibold gap-4 divide-x divide-x-dark">
+                <li>
+                  <Link
+                    to="/"
+                    className={`transition-all ${pathname === '/' ? 'text-primary stroke-primary' : 'text-black stroke-black'
                       } hover:text-primary flex items-center justify-center text-base`}
-                    >
-                      {/* <div className="flex items-center stroke-2 px-3 transition-all hover:stroke-primary">
+                  >
+                    {/* <div className="flex items-center stroke-2 px-3 transition-all hover:stroke-primary">
                       <HomeIcon />
                     </div> */}
-                      Нүүр хуудас
-                    </Link>
-                  </li>
-                  {menus?.map((item, index) => {
-                    const isActive = pathname === item?.link
-                    return (
-                      <li key={index}>
-                        <Link
-                          to={item?.link}
-                          // style={{ fontWeight: "400" }}
-                          className={`${isActive ? 'text-primary' : 'text-black'} hover:text-primary transition-text text-base p-4`}
-                        >
-                          {item?.title}
-                        </Link>
-                      </li>
-                    )
-                  })}
-                </ul>
-              ) : null}
+                    Нүүр хуудас
+                  </Link>
+                </li>
+                {menus?.map((item, index) => {
+                  const isActive = pathname === item?.link
+                  return (
+                    <li key={index}>
+                      <Link
+                        to={item?.link}
+                        // style={{ fontWeight: "400" }}
+                        className={`${isActive ? 'text-primary' : 'text-black'} hover:text-primary transition-text text-base p-4`}
+                      >
+                        {item?.title}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
             {user ? (
               <Link
@@ -108,12 +106,11 @@ const MainHeader = () => {
       <header className="xs:flex lg:hidden items-center justify-between border-b border-light sticky w-full top-0 z-10 h-[54px] px-4 bg-white">
         <div
           onClick={() => navigate(-1)}
-          className={`${
-            (pathname === '/' && 'hidden') ||
+          className={`${(pathname === '/' && 'hidden') ||
             (pathname === '/calculate' && 'hidden') ||
             (pathname === '/address' && 'hidden') ||
             (pathname === '/profile' && 'hidden')
-          } fill-white stroke-1 stroke-black h-9 w-9 flex items-center justify-center border border-light rounded-lg pr-1 cursor-pointer z-20`}
+            } fill-white stroke-1 stroke-black h-9 w-9 flex items-center justify-center border border-light rounded-lg pr-1 cursor-pointer z-20`}
         >
           <ArrowIcon size="22" />
         </div>
@@ -134,9 +131,8 @@ const MainHeader = () => {
 
       {/* <div className="xs:h-16 lg:h-28"></div> */}
       <footer
-        className={`${
-          ['/', '/calculate', '/address', '/profile'].includes(pathname) ? 'xs:grid' : 'hidden'
-        } ${org ? 'grid-cols-4' : 'grid-cols-2'} lg:hidden fixed !bg-white z-10 bottom-0 border-t border-t-light h-16 w-full items-center justify-evenly`}
+        className={`${['/', '/calculate', '/address', '/profile'].includes(pathname) ? 'xs:grid' : 'hidden'
+          } ${org ? 'grid-cols-4' : 'grid-cols-2'} lg:hidden fixed !bg-white z-10 bottom-0 border-t border-t-light h-16 w-full items-center justify-evenly`}
       >
         <Link to={`/`} className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/' ? 'text-primary' : 'text-dark'}`}>
           <span
@@ -152,9 +148,8 @@ const MainHeader = () => {
             className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/calculate' ? 'text-primary' : 'text-dark'}`}
           >
             <span
-              className={`flex items-center stroke-2 px-4 ${
-                pathname === '/calculate' ? 'stroke-primary' : 'stroke-dark'
-              } transition-all hover:stroke-primary`}
+              className={`flex items-center stroke-2 px-4 ${pathname === '/calculate' ? 'stroke-primary' : 'stroke-dark'
+                } transition-all hover:stroke-primary`}
             >
               <CalculateIcon />
             </span>
@@ -167,9 +162,8 @@ const MainHeader = () => {
             className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/address' ? 'text-primary' : 'text-dark'}`}
           >
             <span
-              className={`flex items-center stroke-2 px-4 ${
-                pathname === '/address' ? 'stroke-primary' : 'stroke-dark'
-              } transition-all hover:stroke-primary`}
+              className={`flex items-center stroke-2 px-4 ${pathname === '/address' ? 'stroke-primary' : 'stroke-dark'
+                } transition-all hover:stroke-primary`}
             >
               <AddressIcon />
             </span>
@@ -182,9 +176,8 @@ const MainHeader = () => {
             className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/address' ? 'text-primary' : 'text-dark'}`}
           >
             <span
-              className={`flex items-center stroke-2 px-4 ${
-                pathname === '/address' ? 'stroke-primary' : 'stroke-dark'
-              } transition-all hover:stroke-primary`}
+              className={`flex items-center stroke-2 px-4 ${pathname === '/address' ? 'stroke-primary' : 'stroke-dark'
+                } transition-all hover:stroke-primary`}
             >
               <LoginIcon />
             </span>
@@ -196,9 +189,8 @@ const MainHeader = () => {
             className={`flex-col flex items-center gap-px text-xs font-regular ${pathname === '/profile' ? 'text-primary' : 'text-dark'}`}
           >
             <span
-              className={`flex items-center stroke-2 px-4 ${
-                pathname === '/profile' ? 'stroke-primary' : 'stroke-dark'
-              } transition-all hover:stroke-primary`}
+              className={`flex items-center stroke-2 px-4 ${pathname === '/profile' ? 'stroke-primary' : 'stroke-dark'
+                } transition-all hover:stroke-primary`}
             >
               <UserIcon size="22" />
             </span>

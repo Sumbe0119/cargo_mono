@@ -15,31 +15,32 @@ interface Props {
 const UserInfoEditModal = ({ open, onClose }: Props) => {
   const user1 = localStorage.getItem('user')
   const user = user1 ? JSON.parse(user1) : null
+  console.log("🚀 ~ UserInfoEditModal ~ user:", user)
   const [userData, setUserData] = useState({
-    email:  '',
+    email: '',
     firstName: '',
     id: null,
     lastName: '',
     prefix: '',
     state: '',
-    username:'',
-    phone:  null
+    username: '',
+    phone: null
   })
 
-  
-    
+
+
   const { mutate } = useMutation({
     mutationFn: fetchUser,
     onSuccess: (data) => {
-      setUserData({...data})
-      
+      setUserData({ ...data })
+
     },
   })
 
   useEffect(() => {
     mutate({ id: user?.id })
   }, [user?.id])
-  
+
 
   const handleSubmit = () => {
     //TODO: api bhgui 
@@ -49,8 +50,8 @@ const UserInfoEditModal = ({ open, onClose }: Props) => {
 
   return (
     <Modal onClose={onClose} open={open}>
-      <div className="xs:w-full lg:w-[500px] ">
-        <div className="flex items-center justify-between border-b border-b-light py-4 px-5 w-screen">
+      <div className="">
+        <div className="flex items-center justify-between border-b border-b-light py-4 px-5">
           <h1 className="text-md text-black font-medium">
             Хэрэглэчийн мэдээлэл
           </h1>
@@ -60,28 +61,28 @@ const UserInfoEditModal = ({ open, onClose }: Props) => {
         </div>
         <div className="grid grid-cols-1 gap-3 px-6 pt-4 pb-6 ">
           <CustomInput
-            onChange={(val) => setUserData({...userData, firstName: val})}
+            onChange={(val) => setUserData({ ...userData, firstName: val })}
             placeholder="First name"
             value={userData?.firstName || ''}
             label="Нэр"
             containerClass="mt-2"
           />
           <CustomInput
-            onChange={(val) => setUserData({...userData, lastName: val})}
+            onChange={(val) => setUserData({ ...userData, lastName: val })}
             placeholder="Last name"
             value={userData?.lastName || ''}
             label="Овог"
             containerClass="mt-2"
           />
           <CustomInput
-            onChange={(val) => setUserData({...userData, phone: val})}
+            onChange={(val) => setUserData({ ...userData, phone: val })}
             placeholder="Phone number"
             value={userData?.phone || ''}
             label="Утасны дугаар"
             containerClass="mt-2"
           />
           <CustomInput
-            onChange={(val) => setUserData({...userData, email: val})}
+            onChange={(val) => setUserData({ ...userData, email: val })}
             placeholder="Email"
             value={userData?.email || ""}
             label="Имэйл хаяг"
