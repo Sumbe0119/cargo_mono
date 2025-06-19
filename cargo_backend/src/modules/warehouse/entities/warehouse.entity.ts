@@ -1,4 +1,5 @@
 import { CommonState, WarehouseType } from 'src/common/enum';
+import { CargoAddressEntity } from 'src/modules/cargoAddress/entities/cargoAddress.entity';
 import { Organization } from 'src/modules/organization/entities/organization.entity';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -89,6 +91,10 @@ export class Warehouse {
     weekends?: string;
     holidays?: string;
   };
+
+  @OneToMany(() => CargoAddressEntity, (address) => address.warehouse)
+  @JoinColumn({ name: 'cargo_address' })
+  cargoAddress: CargoAddressEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

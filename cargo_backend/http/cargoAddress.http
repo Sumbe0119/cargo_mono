@@ -1,0 +1,37 @@
+@localUrl = http://localhost:8082/api
+@baseUrl = 
+@accessToken=
+
+### login
+POST {{localUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "phone": "86662422",
+  "password": "admin$123"
+}
+
+### create
+POST {{localUrl}}/cargoAddress
+Content-Type: application/json
+
+
+{
+  "warehouseId": 1,
+  "consignee": "烸嵪 (Өөрийн утасны дугаар)",
+  "phone": "15847901990",
+  "region": "内蒙古自治区 锡林郭勒盟 二连浩特市社区建设管理局",
+  "address": "浩特汇通物流园区C05号 (Өөрийн утасны дугаар)"
+}
+
+
+### get
+GET {{localUrl}}/cargoAddress/1
+Content-Type: application/json
+
+
+### find-all
+GET {{localUrl}}/cargoAddress/1
+
+
+

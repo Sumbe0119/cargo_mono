@@ -19,14 +19,15 @@ import { IpInfoService } from './modules/integrations/ip.info.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { UploadModule } from './modules/upload/upload.module';
-const path = require('path')
- 
+import { CargoAddressModule } from './modules/cargoAddress/cargoAddress.module';
+import { CargoAddressEntity } from './modules/cargoAddress/entities/cargoAddress.entity';
+const path = require('path');
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,  // Бүх модульд хүртээмжтэй болгох
-      envFilePath: path.resolve(__dirname, '../.env'),  
+      isGlobal: true, // Бүх модульд хүртээмжтэй болгох
+      envFilePath: path.resolve(__dirname, '../.env'),
     }),
     JwtModule.register({
       global: true,
@@ -40,7 +41,15 @@ const path = require('path')
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Auth, OrgMemberEntity, Organization, PackageItem, UserEntity, Warehouse],
+      entities: [
+        Auth,
+        OrgMemberEntity,
+        Organization,
+        PackageItem,
+        UserEntity,
+        Warehouse,
+        CargoAddressEntity,
+      ],
       synchronize: true,
     }),
     AuthModule,
@@ -50,9 +59,9 @@ const path = require('path')
     UserModule,
     WarehouseModule,
     UploadModule,
-    
+    CargoAddressModule,
   ],
   controllers: [AppController],
-  providers: [AppService,IpInfoService ], // Зөвхөн AppService-г үлдээх
+  providers: [AppService, IpInfoService], // Зөвхөн AppService-г үлдээх
 })
 export class AppModule {}
