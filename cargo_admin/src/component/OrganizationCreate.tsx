@@ -26,21 +26,15 @@ const OrganizationCreate = (props: any) => {
   }
   const requestHeader = { headers: { 'content-type': 'application/json' } }
   const [singleImage, setSingleImage] = useState<Blob>()
-  const [organization, setOrganization] = useState<any>()
+  // const [organization, setOrganization] = useState<any>()
   const [form] = Form.useForm()
 
   const handleCategoryCreateButtonClick = () => {
     const data = form.getFieldsValue()
     const body = { ...data, logoUrl: singleImage, socialLinks: { url: data?.socialLinks, name: data?.socialName } }
-    console.info('body=>', body)
-    const requestConfig = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
     axios
-      .post(`${config.get('API_BASE_URL')}/organization`, JSON.stringify(body), requestConfig)
-      .then((res) => {
+      .post(`${config.get('API_BASE_URL')}/organization`, JSON.stringify(body), requestHeader)
+      .then(() => {
         notification.success({
         message: 'Амжилттай '
         })

@@ -1,14 +1,11 @@
 import { useState } from 'react'  
 import { Layout, Menu } from 'antd'
 import PagePath from '../component/pagePath'
-// import { Outlet, useNavigate } from 'react-router-dom'
 
 
 import {
   HomeOutlined,
   MenuOutlined,
-  RobotOutlined,
-  // ShopOutlined,
 } from '@ant-design/icons'
 import { Outlet, useNavigate} from 'react-router';
 
