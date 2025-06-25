@@ -10,7 +10,8 @@ export const whitelist = [
   'http://localhost:3000',
   'http://localhost:3001',
   'https://admin.erdenezuu.mn',
-  'https://mybox.mn'
+  'https://mybox.mn',
+  'https://admin.mybox.mn'
 ];
 
 async function bootstrap() {
