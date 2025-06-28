@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 
@@ -11,7 +11,7 @@ export const whitelist = [
   'http://localhost:3001',
   'https://admin.erdenezuu.mn',
   'https://mybox.mn',
-  'https://admin.mybox.mn'
+  'https://admin.mybox.mn',
 ];
 
 async function bootstrap() {
@@ -37,6 +37,10 @@ async function bootstrap() {
   });
 
   app.use(cookieParser());
+
+  app.setBaseViewsDir(resolve(__dirname, '../views'));
+  app.setViewEngine('hbs');
+
   console.info(`Server is running on http://localhost:${process.env.PORT}`);
   await app.listen(process.env.PORT ?? 8080);
 }

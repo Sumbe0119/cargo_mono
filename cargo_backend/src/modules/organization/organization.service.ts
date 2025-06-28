@@ -1,51 +1,68 @@
-import { HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { CreateOrganizationDto, OrgFilterDto, UpdateOrganizationDto } from './dto/organization.dto';
+import {
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  CreateOrganizationDto,
+  OrgFilterDto,
+  UpdateOrganizationDto,
+} from './dto/organization.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Organization } from './entities/organization.entity';
 import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { CommonReturnType, Pagination } from 'src/common/commonReturnTyp.dto';
 import { CommonState } from 'src/common/enum';
-
+import { WarehouseService } from '../warehouse/warehouse.service';
 
 @Injectable()
 export class OrganizationService {
   constructor(
     @InjectRepository(Organization)
     private readonly organizationRepository: Repository<Organization>,
+
+    @Inject(forwardRef(() => WarehouseService))
+    private readonly wareHouseService: WarehouseService,
   ) {}
 
-  
-  async getOne(where?: FindOptionsWhere<Organization>, relations?: FindOptionsRelations<Organization>) {
+  async getOne(
+    where?: FindOptionsWhere<Organization>,
+    relations?: FindOptionsRelations<Organization>,
+  ) {
     where = {
       ...where,
       state: CommonState.ACTIVE,
-    }
+    };
 
-    return this.organizationRepository.findOne({ where, relations })
+    return this.organizationRepository.findOne({ where, relations });
   }
 
   async create(createDto: CreateOrganizationDto): Promise<CommonReturnType> {
     const existingOrg = await this.organizationRepository.findOne({
-      where: [
-          { name: createDto.name },
-          { slug: createDto.slug }
-      ]
+      where: [{ name: createDto.name }, { slug: createDto.slug }],
     });
 
     if (existingOrg) {
       const conflicts = {};
       if (existingOrg.name === createDto.name) {
-          conflicts['name'] = 'Нэр давхцаж байна';
+        conflicts['name'] = 'Нэр давхцаж байна';
       }
       if (existingOrg.slug === createDto.slug) {
-          conflicts['slug'] = 'Slug давхцаж байна';
+        conflicts['slug'] = 'Slug давхцаж байна';
       }
 
-      throw new HttpException({
+      throw new HttpException(
+        {
           success: false,
           message: 'Байгууллага үүсгэхэд алдаа гарлаа',
-          conflicts
-      }, HttpStatus.BAD_REQUEST);
+          conflicts,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     try {
@@ -53,72 +70,80 @@ export class OrganizationService {
       const savedOrg = await this.organizationRepository.save(organization);
       return {
         success: true,
-        data: savedOrg
+        data: savedOrg,
       };
     } catch (error) {
       throw new InternalServerErrorException({
         success: false,
         data: {
           message: 'Байгууллага үүсгэхэд алдаа гарлаа',
-          error: error.message
-        }
+          error: error.message,
+        },
       });
     }
   }
 
   async findAll(filter: OrgFilterDto, pagination: Pagination) {
     try {
-      
       // QueryBuilder үүсгэх
       const queryBuilder = this.organizationRepository
         .createQueryBuilder('org')
         .orderBy('org.createdAt', 'DESC');
-  
+
       // Хайлтын нөхцөл нэмэх
       if (filter.search) {
         queryBuilder.where(
           '(organization.name LIKE :search OR organization.slug LIKE :search OR organization.email LIKE :search)',
-          { search: `%${filter.search}%` }
+          { search: `%${filter.search}%` },
         );
       }
-    
+
       // Өгөгдөл авах
       const [list, total] = await queryBuilder
         .skip(pagination.offset)
         .take(pagination.size)
         .getMany();
-  
+
       return {
         list,
-        total
+        total,
       };
     } catch (error) {
       throw new InternalServerErrorException({
         success: false,
         data: {
           message: 'Байгууллагын жагсаалт авахад алдаа гарлаа',
-          error: error.message
-        }
+          error: error.message,
+        },
       });
     }
   }
 
   async findOne(id: number): Promise<CommonReturnType> {
+
+    
+    const initialWarehouse = await this.wareHouseService.getOne({
+      organizationId: id,
+    });
+
     try {
-      const organization = await this.organizationRepository.findOne({ 
-        where: { id }
+      const organization = await this.organizationRepository.findOne({
+        where: { id },
       });
 
       if (!organization) {
         throw new NotFoundException({
           success: false,
-          message: `Байгууллага олдсонгүй`
+          message: `Байгууллага олдсонгүй`,
         });
       }
 
       return {
         success: true,
-        data: organization
+        data: {
+          ...organization,
+          initialWarehouseId: initialWarehouse?.id || null,
+        },
       };
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -128,41 +153,50 @@ export class OrganizationService {
         success: false,
         data: {
           message: 'Байгууллагын мэдээлэл авахад алдаа гарлаа',
-          error: error.message
-        }
+          error: error.message,
+        },
       });
     }
   }
 
-  async update(id: number, updateDto: UpdateOrganizationDto): Promise<CommonReturnType> {
-    
+  async update(
+    id: number,
+    updateDto: UpdateOrganizationDto,
+  ): Promise<CommonReturnType> {
     try {
       // Эхлээд байгууллага байгаа эсэхийг шалгах
-      const existingOrg = await this.organizationRepository.findOne({ where: { id } });
+      const existingOrg = await this.organizationRepository.findOne({
+        where: { id },
+      });
       if (!existingOrg) {
         throw new NotFoundException({
           success: false,
-          message: 'Байгууллага олдсонгүй'
+          message: 'Байгууллага олдсонгүй',
         });
       }
-      
+
       await this.organizationRepository.update(id, updateDto);
-      const updatedOrg = await this.organizationRepository.findOne({ where: { id } });
+      const updatedOrg = await this.organizationRepository.findOne({
+        where: { id },
+      });
 
       return {
         success: true,
-        data: updatedOrg || {}
+        data: updatedOrg || {},
       };
     } catch (error) {
-      if (error instanceof NotFoundException || error instanceof HttpException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof HttpException
+      ) {
         throw error;
       }
       throw new InternalServerErrorException({
         success: false,
         data: {
           message: 'Байгууллагын мэдээлэл шинэчлэхэд алдаа гарлаа',
-          error: error.message
-        }
+          error: error.message,
+        },
       });
     }
   }
@@ -170,11 +204,13 @@ export class OrganizationService {
   async remove(id: number): Promise<CommonReturnType> {
     try {
       // Эхлээд байгууллага байгаа эсэхийг шалгах
-      const existingOrg = await this.organizationRepository.findOne({ where: { id } });
+      const existingOrg = await this.organizationRepository.findOne({
+        where: { id },
+      });
       if (!existingOrg) {
         throw new NotFoundException({
           success: false,
-          message: 'Байгууллага олдсонгүй'
+          message: 'Байгууллага олдсонгүй',
         });
       }
 
@@ -184,15 +220,15 @@ export class OrganizationService {
       if (deleteResult.affected === 0) {
         throw new NotFoundException({
           success: false,
-          message: 'Байгууллага устгагдаагүй'
+          message: 'Байгууллага устгагдаагүй',
         });
       }
 
       return {
         success: true,
-        data:{
-          message: 'Байгууллага амжилттай устгагдлаа'
-        }
+        data: {
+          message: 'Байгууллага амжилттай устгагдлаа',
+        },
       };
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -202,8 +238,8 @@ export class OrganizationService {
         success: false,
         data: {
           message: 'Байгууллагын мэдээлэл устгахад алдаа гарлаа',
-          error: error.message
-        }
+          error: error.message,
+        },
       });
     }
   }

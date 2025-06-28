@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" class="default">
+  <head>
+    <meta charset="UTF-8" />
+    {{!-- <meta property="og:url" content="{{frontUrl}}" /> --}}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mybox" />
+    <meta property="og:description" content="Mybox Net Platform" />
+    {{!-- <meta property="og:image" content="{{frontUrl}}/assets/logo.png" /> --}}
+    
+    <link rel="icon" type="image/svg+xml" href="{{icon}}" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+    <title>Cargo</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDZR9Z8PBV"></script>
+
+    
+
+    {{#if org}}
+      <script>window.__INITIAL_STATE__ = {{{org}}}</script>
+    {{/if}}
+    
+   
+    
+    
+  </head>
+  <body>
+    <div id="root"></div>
+    
+  </body>
+</html>

@@ -21,6 +21,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UploadModule } from './modules/upload/upload.module';
 import { CargoAddressModule } from './modules/cargoAddress/cargoAddress.module';
 import { CargoAddressEntity } from './modules/cargoAddress/entities/cargoAddress.entity';
+import { BotModule } from './modules/bot/bot.module';
 const path = require('path');
 
 @Module({
@@ -60,6 +61,8 @@ const path = require('path');
     WarehouseModule,
     UploadModule,
     CargoAddressModule,
+
+    BotModule, //ssr zaawal hamgiin door baina
   ],
   controllers: [AppController],
   providers: [AppService, IpInfoService], // Зөвхөн AppService-г үлдээх

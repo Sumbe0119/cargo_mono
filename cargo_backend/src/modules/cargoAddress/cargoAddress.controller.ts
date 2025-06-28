@@ -38,9 +38,11 @@ export class CargoAddressController {
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return await this.repository.findOne({
-      where: { warehouse: { id } },
-      // relations: ['warehouse'],
-    });
+    return await this.repository
+      .createQueryBuilder('address')
+      .leftJoin('address.warehouse', 'warehouse')
+      .addSelect(['warehouse.name'])
+      .where('warehouse.id = :id', { id })
+      .getOne();
   }
 }

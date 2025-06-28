@@ -16,7 +16,7 @@ import Notfound from '../components/layout/Notfound'
 const AppRoutes = () => {
   const data = localStorage.getItem('user')
   const user = data ? JSON.parse(data) : null
-  
+
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>

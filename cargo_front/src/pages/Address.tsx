@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import OrganizationContext from "../components/provider/OrganizationProvider";
 import { API } from "../components/api";
 import { CommonState } from "../components/assets/enums";
+import CargoAddress from "../components/widget/cargoAddress/CargoAddress";
 
 interface StateType {
   loading: boolean,
@@ -33,6 +34,12 @@ const Address = () => {
     fetchList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (state?.list?.length === 1) {
+    return (
+      <CargoAddress warehouseId={state?.list[0]?.id} />
+    )
+  }
 
   return (
     <div className="simple-container xs:px-4 lg:px-0 xs:space-y-3 lg:space-y-12 xs:mt-6 lg:mt-24">

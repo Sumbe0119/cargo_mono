@@ -93,9 +93,13 @@ const MainHeader = () => {
 
         {
           ['/', '/profile', '/calculate', '/address'].includes(pathname) ? (
-            <Link to={`/`}>
-              <img className="h-10" alt="logo" src="./logo.png" />
-            </Link>
+            <>
+              {
+                org ? <div className='text-md font-semibold text-primary'>{org?.name}</div> : <Link to={`/`}>
+                  <img className="h-10" alt="logo" src="./logo.png" />
+                </Link>
+              }
+            </>
           ) : <div
             onClick={() => navigate(-1)}
             className={`fill-white stroke-1 stroke-black h-9 w-9 flex items-center justify-center border border-light rounded-lg pr-1 cursor-pointer z-20`}
