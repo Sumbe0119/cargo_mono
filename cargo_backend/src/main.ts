@@ -12,25 +12,33 @@ export const whitelist = [
   'https://admin.erdenezuu.mn',
   'https://mybox.mn',
   'https://admin.mybox.mn',
+  'https://tododcargo.mybox.mn',
 ];
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.enableCors({
-    origin: function (origin, callback) {
-      console.debug('origin:', origin);
+  
+  // app.enableCors({
+  //   origin: function (origin, callback) {
+  //     console.debug('origin:', origin);
 
-      if (!origin || origin === 'null' || whitelist.indexOf(origin) !== -1) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        callback(null, true);
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+  //     if (!origin || origin === 'null' || whitelist.indexOf(origin) !== -1) {
+  //       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  //       callback(null, true);
+  //     } else {
+  //       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   credentials: true,
+  // });
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+  
   app.setGlobalPrefix('/api');
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
