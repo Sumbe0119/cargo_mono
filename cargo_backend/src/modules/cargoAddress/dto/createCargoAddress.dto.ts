@@ -1,4 +1,4 @@
-import {  IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateCargoAddressDto {
   @IsNumber()
@@ -21,6 +21,20 @@ export class CreateCargoAddressDto {
   zipcode?: string;
 }
 
-export class UpdateCargoAddressDto extends CreateCargoAddressDto {
-  
+export class UpdateCargoAddressDto {
+  @IsString()
+  consignee?: string;
+
+  @IsString()
+  phone?: string;
+
+  @IsString()
+  region?: string;
+
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsString()
+  zipcode?: string;
 }

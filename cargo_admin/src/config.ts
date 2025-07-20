@@ -1,8 +1,8 @@
 // import * as env from 'env-var'
 
 let configList: any = {
-    API_BASE_URL: 'https://mybox.mn/api',
-    // API_BASE_URL: 'http://localhost:8082/api',
+    // API_BASE_URL: 'https://mybox.mn/api',
+    API_BASE_URL: 'http://localhost:8082/api',
     IMAGE_BASE_URL: 'https://mybox.mn/',
   }
   

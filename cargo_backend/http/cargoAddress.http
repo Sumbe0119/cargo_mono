@@ -24,6 +24,18 @@ Content-Type: application/json
   "address": "浩特汇通物流园区C05号 (Өөрийн утасны дугаар)"
 }
 
+### update
+PUT {{localUrl}}/cargoAddress/4
+Content-Type: application/json
+
+
+{
+  "consignee": "烸嵪 (86662422)",
+  "phone": "11111",
+  "region": "内蒙古自治区 锡林郭勒盟 二连浩特市社区建设管理局",
+  "address": "浩特汇通物流园区C05号 (Өөрийн утасны дугаар)"
+}
+
 
 ### get
 GET {{localUrl}}/cargoAddress/1
@@ -31,7 +43,7 @@ Content-Type: application/json
 
 
 ### find-all
-GET {{localUrl}}/cargoAddress/1
+GET {{localUrl}}/cargoAddress/1/all?page=1&limit=5
 
 
 

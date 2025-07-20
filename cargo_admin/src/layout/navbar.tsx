@@ -18,6 +18,12 @@ const menus = [
     icon: <HomeOutlined />,
   },
   {
+    key: 'cargoAddress',
+    url: PagePath.cargoAddress,
+    label: 'Агуулхын хаяг',
+    icon: <MenuOutlined />,
+  },
+  {
     key: 'list',
     url: PagePath.list,
     label: 'list',

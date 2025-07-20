@@ -5,8 +5,13 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  Query,
+  Put,
 } from '@nestjs/common';
-import { CreateCargoAddressDto } from './dto/createCargoAddress.dto';
+import {
+  CreateCargoAddressDto,
+  UpdateCargoAddressDto,
+} from './dto/createCargoAddress.dto';
 import { Repository } from 'typeorm';
 
 import { InjectRepository } from '@nestjs/typeorm';
@@ -28,14 +33,27 @@ export class CargoAddressController {
 
     return await this.repository.save(entity);
   }
-  // @Get('')
-  // async findAll(@Param('id', ParseIntPipe) id: number) {
-  //   return await this.repository.find({
-  //     where: { warehouse: { id } },
-  //     // relations: ['warehouse'],
-  //   });
-  // }
+  @Get(':id/all')
+  async findAll(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('page', ParseIntPipe) page = 1,
+    @Query('limit', ParseIntPipe) limit = 10,
+  ) {
+    const skip = (page - 1) * limit;
 
+    const [data, total] = await this.repository.findAndCount({
+      where: { warehouse: { id: id } },
+      skip,
+      take: limit,
+    });
+
+    return {
+      total,
+      page,
+      limit,
+      data,
+    };
+  }
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.repository
@@ -44,5 +62,25 @@ export class CargoAddressController {
       .addSelect(['warehouse.name'])
       .where('warehouse.id = :id', { id })
       .getOne();
+  }
+
+  @Put(':id')
+  public async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() input: UpdateCargoAddressDto,
+  ) {
+    const existing = await this.repository.findOne({ where: { id } });
+
+    if (!existing) {
+      throw new Error('Cargo address not found');
+    }
+    const updateAddress = this.repository.create({
+      id: existing.id, // ID-г хадгална
+      ...input,
+    });
+
+    const data = await this.repository.save(updateAddress);
+
+    return data;
   }
 }
