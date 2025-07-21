@@ -7,6 +7,8 @@ import {
   ParseIntPipe,
   Query,
   Put,
+  Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import {
   CreateCargoAddressDto,
@@ -82,5 +84,17 @@ export class CargoAddressController {
     const data = await this.repository.save(updateAddress);
 
     return data;
+  }
+  @Delete(':id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const existing = await this.repository.findOne({ where: { id } });
+
+    if (!existing) {
+      throw new NotFoundException('Cargo address not found');
+    }
+
+    await this.repository.remove(existing);
+
+    return { message: 'Cargo address deleted successfully' };
   }
 }

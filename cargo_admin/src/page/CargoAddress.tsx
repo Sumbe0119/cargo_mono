@@ -1,5 +1,5 @@
-import { EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Flex, Table } from 'antd'
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Card, Flex, notification, Popconfirm, Table } from 'antd'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import CargoAddressFormModal from '../component/CargoAddressFormModal'
 import { EditModalType, ListState } from '../utils/commonTypes'
@@ -14,8 +14,7 @@ const CargoAddress = () => {
     loading: true,
     list: [],
   })
-
-
+  const requestHeader = { headers: { 'content-type': 'application/json' } }
   const fetchList = useCallback(async () => {
     const requestHeader = { headers: { 'content-type': 'application/json' } }
 
@@ -31,7 +30,6 @@ const CargoAddress = () => {
         loading: false,
         list: data.data || [],
       })
-
     } catch (err) {
       updateState((prev) => ({ ...prev, loading: false }))
       errorHandler(err)
@@ -41,6 +39,16 @@ const CargoAddress = () => {
   useEffect(() => {
     if (warehouseId) {
       fetchList()
+    }
+  }, [])
+
+  const removeItem = useCallback(async (id: any) => {
+    try {
+      await axios.delete(`${config.get('API_BASE_URL')}/cargoAddress/${id}`, requestHeader)
+      notification.success({ message: 'Хаяг', description: 'Амжилттай устгалаа', placement: 'topRight' })
+      fetchList()
+    } catch (error: any) {
+      notification.error({ message: error.message })
     }
   }, [])
 
@@ -79,9 +87,19 @@ const CargoAddress = () => {
             <Button onClick={() => updateEdit({ visible: true, id: record.id })} size="small" icon={<EditOutlined />}>
               Засах
             </Button>
-            {/* <Button size="small" danger type="primary" onClick={() => console.info('first')} icon={<DeleteOutlined />}>
-              Устгах
-            </Button> */}
+
+            <Popconfirm
+              onConfirm={() => removeItem(record?.id)}
+              placement="top"
+              title={'Устгах'}
+              description={'Номыг устгахдаа итгэлтэй байна уу'}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button size="small" danger type="primary" icon={<DeleteOutlined />}>
+                Устгах
+              </Button>
+            </Popconfirm>
           </Flex>
         )
       },

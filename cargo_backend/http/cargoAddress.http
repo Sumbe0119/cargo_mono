@@ -46,5 +46,5 @@ Content-Type: application/json
 ### find-all
 GET {{localUrl}}/cargoAddress/1/all?page=1&limit=5
 
-
-
+### delete
+DELETE  {{localUrl}}/cargoAddress/6
