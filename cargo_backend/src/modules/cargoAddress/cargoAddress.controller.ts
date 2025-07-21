@@ -60,7 +60,7 @@ export class CargoAddressController {
       .createQueryBuilder('address')
       .leftJoin('address.warehouse', 'warehouse')
       .addSelect(['warehouse.name'])
-      .where('warehouse.id = :id', { id })
+      .where('address.id = :id', { id })
       .getOne();
   }
 

@@ -1,7 +1,7 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Flex,  Table } from 'antd'
+import { EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Card, Flex, Table } from 'antd'
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import CargoAddressCreate from '../component/CargoAddressCreate'
+import CargoAddressFormModal from '../component/CargoAddressFormModal'
 import { EditModalType, ListState } from '../utils/commonTypes'
 import axios from 'axios'
 import config from '../config'
@@ -15,13 +15,14 @@ const CargoAddress = () => {
     list: [],
   })
 
-  const fetchList = useCallback(async (warehouseId: number) => {
+
+  const fetchList = useCallback(async () => {
     const requestHeader = { headers: { 'content-type': 'application/json' } }
 
     updateState((prev) => ({ ...prev, loading: true }))
 
     try {
-      const {data} = await axios.get(
+      const { data } = await axios.get(
         `${config.get('API_BASE_URL')}/cargoAddress/${warehouseId}/all?page=1&limit=5`,
         requestHeader,
       )
@@ -38,7 +39,9 @@ const CargoAddress = () => {
   }, [])
 
   useEffect(() => {
-    fetchList(warehouseId)
+    if (warehouseId) {
+      fetchList()
+    }
   }, [])
 
   const columns = [
@@ -76,9 +79,9 @@ const CargoAddress = () => {
             <Button onClick={() => updateEdit({ visible: true, id: record.id })} size="small" icon={<EditOutlined />}>
               Засах
             </Button>
-            <Button size="small" danger type="primary" onClick={() => console.info('first')} icon={<DeleteOutlined />}>
+            {/* <Button size="small" danger type="primary" onClick={() => console.info('first')} icon={<DeleteOutlined />}>
               Устгах
-            </Button>
+            </Button> */}
           </Flex>
         )
       },
@@ -107,12 +110,13 @@ const CargoAddress = () => {
         />
       </Card>
 
-      {edit?.id && (
-        <CargoAddressCreate
+      {edit?.visible && (
+        <CargoAddressFormModal
           title="Агуулхын хаяг нэмэх"
           open={edit.visible}
-          warehouseId={edit?.id}
+          id={edit?.id}
           onClose={() => updateEdit({ visible: false })}
+          refetch={() => fetchList()}
         />
       )}
     </Fragment>

@@ -38,7 +38,8 @@ Content-Type: application/json
 
 
 ### get
-GET {{localUrl}}/cargoAddress/1
+GET {{localUrl}}/cargoAddress/4
+
 Content-Type: application/json
 
 
