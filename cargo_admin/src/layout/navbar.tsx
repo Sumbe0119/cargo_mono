@@ -5,6 +5,7 @@ import PagePath from '../component/pagePath'
 
 import {
   ApartmentOutlined,
+  BoxPlotOutlined,
   HomeOutlined,
   MenuOutlined,
   ProjectOutlined,
@@ -32,10 +33,10 @@ const menus = [
     icon: <ProjectOutlined />
   },
   {
-    key: 'list',
-    url: PagePath.list,
-    label: 'list',
-    icon: <MenuOutlined />,
+    key: 'package',
+    url: PagePath.package,
+    label: 'Ачаа бүртгэл',
+    icon: <BoxPlotOutlined />,
   },
   {
     key: 'organization',
