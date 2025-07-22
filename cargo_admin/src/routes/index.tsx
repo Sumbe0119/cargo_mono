@@ -5,6 +5,7 @@ import List from '../page/List'
 import { Navigate, Route, Routes } from 'react-router'
 import Organization from '../page/Organization'
 import CargoAddress from '../page/CargoAddress'
+import Warehouse from '../page/Warehouse'
 
 export function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/organization" element={<Organization />} />
         <Route path="/cargoAddress" element={<CargoAddress />} />
+        <Route path="/warehouse" element={<Warehouse />} />
         <Route path="/list" element={<List />} />
       </Route>
       <Route path="*" element={<Navigate to="/" />} />

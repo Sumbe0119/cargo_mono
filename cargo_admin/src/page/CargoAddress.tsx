@@ -4,19 +4,19 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 import CargoAddressFormModal from '../component/CargoAddressFormModal'
 import { EditModalType, ListState } from '../utils/commonTypes'
 import axios from 'axios'
-import config from '../config'
+import config, { requestHeader } from '../config'
 import { errorHandler } from '../component/Utilities'
 
 const CargoAddress = () => {
   const warehouseId = 1
+
   const [edit, updateEdit] = useState<EditModalType>({ visible: false })
   const [state, updateState] = useState<ListState>({
     loading: true,
     list: [],
   })
-  const requestHeader = { headers: { 'content-type': 'application/json' } }
+
   const fetchList = useCallback(async () => {
-    const requestHeader = { headers: { 'content-type': 'application/json' } }
 
     updateState((prev) => ({ ...prev, loading: true }))
 
@@ -110,7 +110,7 @@ const CargoAddress = () => {
     <Fragment>
       <Card
         className="full-card"
-        title="Агуулхын жагсаалт"
+        title="Хаяг жагсаалт"
         loading={false}
         extra={
           <Button type="primary" onClick={() => updateEdit({ visible: true })} icon={<PlusOutlined />}>

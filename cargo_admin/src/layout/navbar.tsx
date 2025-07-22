@@ -1,13 +1,15 @@
-import { useState } from 'react'  
+import { useState } from 'react'
 import { Layout, Menu } from 'antd'
 import PagePath from '../component/pagePath'
 
 
 import {
+  ApartmentOutlined,
   HomeOutlined,
   MenuOutlined,
+  ProjectOutlined,
 } from '@ant-design/icons'
-import { Outlet, useNavigate} from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 
 const { Content, Footer, Sider } = Layout
 const menus = [
@@ -18,10 +20,16 @@ const menus = [
     icon: <HomeOutlined />,
   },
   {
+    key: 'warehouse',
+    url: PagePath.warehouse,
+    label: 'Салбар',
+    icon: <ApartmentOutlined />,
+  },
+  {
     key: 'cargoAddress',
     url: PagePath.cargoAddress,
     label: 'Агуулхын хаяг',
-    icon: <MenuOutlined />,
+    icon: <ProjectOutlined />
   },
   {
     key: 'list',
@@ -44,9 +52,9 @@ const LeftMenu = () => {
   const pathChanger = (path: any) => {
     const result = menus.find(({ key }) => key === path.key)
     const url = result ? result.url : ''
-    navigate(url.toString()); 
+    navigate(url.toString());
   }
-  
+
   const onCollapses = () => {
     console.warn(collapsed)
     setOrderDetail(!collapsed)

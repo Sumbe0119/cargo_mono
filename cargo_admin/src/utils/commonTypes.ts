@@ -1,6 +1,6 @@
 export interface EditModalType {
   visible: boolean
-  id?: number 
+  id?: number
 }
 
 export interface ListState {
@@ -9,4 +9,27 @@ export interface ListState {
   total?: number
   page?: number
   error?: any
+}
+
+export type WarehouseFieldType = {
+  organizationId: number
+  name: string
+  address: string
+  region: string
+  type: string
+  totalCapacity: string
+  staffCount: string
+  contactInfo: {
+    phone: string
+    email: string
+  }
+  currency: {
+    kg: string
+    m3: string
+    rate: string
+  }
+  operatingHours: {
+    weekdays: string
+    weekends: string
+  }
 }
