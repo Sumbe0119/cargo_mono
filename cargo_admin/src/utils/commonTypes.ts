@@ -33,3 +33,10 @@ export type WarehouseFieldType = {
     weekends: string
   }
 }
+
+export enum WarehouseType {
+  NORMAL = 'NORMAL', // Энгийн агуулах
+  FAST = 'FAST', // Шуурхай хүргэлт
+  // COLD = 'cold', // Хүйтэн цех
+  // DANGEROUS = 'dangerous' // Аюултай материал
+}

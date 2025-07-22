@@ -37,32 +37,6 @@ export class WarehouseService {
   }
 
   async create(createDto: CreateWarehouseDto): Promise<CommonReturnType> {
-    const existOrg = await this.orgService.getOne({
-      id: createDto.organizationId,
-      state: CommonState.ACTIVE,
-    });
-
-    if (!existOrg) {
-      throw new HttpException('Байгууллага олдсонгүй', HttpStatus.BAD_REQUEST);
-    }
-
-    const exist = await this.wareHouseRepository.findOne({
-      where: { name: createDto.name },
-    });
-    if (exist) {
-      let conflicts = '';
-      if (exist.name === createDto.name) {
-        conflicts = 'Агуулахын нэр давхцаж байна';
-      }
-      throw new HttpException(
-        {
-          success: false,
-          message: `Байгууллага үүсгэхэд алдаа гарлаа`,
-          error: conflicts,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     try {
       const _warehouse = this.wareHouseRepository.create(createDto);
       const saved = await this.wareHouseRepository.save(_warehouse);

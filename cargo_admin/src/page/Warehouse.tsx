@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Popconfirm, Table } from 'antd'
+import { Button, Card, notification, Popconfirm, Table, Tag } from 'antd'
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
-import { EditModalType, ListState } from '../utils/commonTypes'
+import { EditModalType, ListState, WarehouseType } from '../utils/commonTypes'
 import { errorHandler } from '../component/Utilities'
 import axios from 'axios'
 import config, { requestHeader } from '../config'
@@ -43,6 +43,16 @@ const Warehouse = () => {
   }, [])
 
 
+  const removeItem = useCallback(async (id: any) => {
+    try {
+      await axios.delete(`${config.get('API_BASE_URL')}/warehouse/${id}`, requestHeader)
+      notification.success({ message: 'Салбар', description: 'Амжилттай устгалаа', placement: 'topRight' })
+      fetchList()
+    } catch (error: any) {
+      notification.error({ message: error.message })
+    }
+  }, [])
+
   const columns = [
     {
       title: 'ID',
@@ -63,6 +73,19 @@ const Warehouse = () => {
       title: 'Бүс нутаг',
       dataIndex: 'region',
       key: 'region',
+    },
+    {
+      title: 'Төрөл',
+      dataIndex: 'type',
+      key: 'type',
+      render: (type: any) => {
+        return (
+          <Tag color={type == WarehouseType.NORMAL ? 'blue' : 'magenta'}>
+            {type == WarehouseType.NORMAL ? 'Энгийн' : 'Шуурхай'}
+          </Tag>
+
+        )
+      }
     },
     {
       title: 'Холбоо барих',
@@ -138,7 +161,7 @@ const Warehouse = () => {
               Засах
             </Button>
             <Popconfirm
-              onConfirm={() => console.info(`remuve ${record}`)}
+              onConfirm={() => removeItem(record?.id)}
               placement="top"
               title={'Устгах'}
               description={'Номыг устгахдаа итгэлтэй байна уу'}

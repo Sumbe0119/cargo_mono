@@ -1,13 +1,14 @@
 import dayjs from 'dayjs'
 import 'dayjs/locale/mn'
 import dayLocaleData from 'dayjs/plugin/localeData'
-import { Form, Input, Modal, notification, Skeleton } from 'antd'
+import { Form, Input, Modal, notification, Select, Skeleton } from 'antd'
 import axios from 'axios'
 import config, { requestHeader } from '../config'
 import { errorHandler } from './Utilities'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import TextArea from 'antd/es/input/TextArea'
-import { WarehouseFieldType } from '../utils/commonTypes'
+import { WarehouseFieldType, WarehouseType } from '../utils/commonTypes'
+import OrganizationContext from '../context/OrganizationProvider'
 
 dayjs.locale('mn')
 dayjs.extend(dayLocaleData)
@@ -22,6 +23,7 @@ interface ModalProps {
 
 const WarehouseFormModal = ({ title, open, onClose, id, refetch }: ModalProps) => {
 
+  const { org } = useContext(OrganizationContext)
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm<WarehouseFieldType>()
 
@@ -50,28 +52,43 @@ const WarehouseFormModal = ({ title, open, onClose, id, refetch }: ModalProps) =
 
   const handleSubmit = async () => {
     try {
-      const payload = await form.validateFields()
-      console.log("🚀 ~ handleSubmit ~ values:", payload)
+      const data = await form.validateFields()
 
-      // if (id) {
-      //   await axios.put(
-      //     `${config.get('API_BASE_URL')}/warehouse`,
-      //     payload,
-      //     requestHeader
-      //   )
-      // } else {
-      //   await axios.post(
-      //     `${config.get('API_BASE_URL')}/warehouse`,
-      //     payload,
-      //     requestHeader
-      //   )
-      // }
+      const payload = {
+        ...data,
+        totalCapacity: +data?.totalCapacity,
+        organizationId: org?.id,
+        currency: {
+          kg: +data?.currency?.kg,
+          m3: +data?.currency?.m3,
+          rate: +data?.currency?.rate
+        }
+      }
 
-      // notification.success({ message: 'Амжилттай хадгаллаа' })
-      // onClose()
-      // refetch()
-    } catch (err) {
-      errorHandler(err)
+      if (id) {
+        await axios.put(
+          `${config.get('API_BASE_URL')}/warehouse/${id}`,
+          payload,
+          requestHeader
+        )
+      } else {
+        await axios.post(
+          `${config.get('API_BASE_URL')}/warehouse`,
+          payload,
+          requestHeader
+        )
+      }
+
+      notification.success({ message: 'Амжилттай хадгаллаа' })
+      onClose()
+      refetch()
+    } catch (err: any) {
+      console.log("🚀 ~ handleSubmit ~ err:", err)
+
+      notification.error({
+        message: 'Хэрэглэгчийг таньсангүй.',
+        description: err.error || errorHandler(err)
+      })
     }
   }
 
@@ -99,7 +116,7 @@ const WarehouseFormModal = ({ title, open, onClose, id, refetch }: ModalProps) =
             <Input placeholder="Бүс нутаг" />
           </Form.Item>
 
-          <div className='flex items-center gap-2 w-full'>
+          <div className='grid grid-cols-3 items-center gap-2 w-full'>
             <Form.Item name={['contactInfo', 'phone']} label="Утас">
               <Input placeholder="Утас" />
             </Form.Item>
@@ -107,11 +124,15 @@ const WarehouseFormModal = ({ title, open, onClose, id, refetch }: ModalProps) =
               <Input placeholder="Имэйл" />
             </Form.Item>
             <Form.Item name="type" label="Агуулахын төрөл">
-              <Input placeholder="Энгийн / Шуурхай" />
+              <Select
+                placeholder='Энгийн / Шуурхай'>
+                <Select.Option value={WarehouseType.NORMAL}>Энгийн</Select.Option>
+                <Select.Option value={WarehouseType.FAST}>Шуурхай</Select.Option>
+              </Select>
             </Form.Item>
           </div>
 
-          <div className='flex gap-2'>
+          <div className='grid grid-cols-3 items-center gap-2 w-full'>
             <Form.Item name={['operatingHours', 'weekdays']} label="Ажлын өдөр">
               <Input placeholder="Ажлын өдөр" />
             </Form.Item>
