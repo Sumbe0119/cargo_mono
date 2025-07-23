@@ -6,72 +6,89 @@
 @tailwind utilities;
 
 :root {
-    font-family: 'Roboto';
-    letter-spacing: -0.3px;
+  font-family: 'Roboto';
+  letter-spacing: -0.3px;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: black;
-    background-color: white;
-    border-radius: 100%;
-    top: 55%;
-    right: 0px;
-    height: 24px;
-    width: 24px;
+  color: black;
+  background-color: white;
+  border-radius: 100%;
+  top: 55%;
+  right: 0px;
+  height: 24px;
+  width: 24px;
 }
 
 .swiper-button-next::after {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .swiper-button-prev {
-    color: black;
-    background-color: white;
-    border-radius: 100%;
-    top: 55%;
-    left: 0px;
-    height: 24px;
-    width: 24px;
-    font-size: 6px;
+  color: black;
+  background-color: white;
+  border-radius: 100%;
+  top: 55%;
+  left: 0px;
+  height: 24px;
+  width: 24px;
+  font-size: 6px;
 }
 
 .swiper-button-prev::after {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .address {
-    -webkit-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .start {
-    box-shadow: 0 0 0 20px white;
-    animation: pulse 3s infinite;
-  }
- 
+  box-shadow: 0 0 0 20px white;
+  animation: pulse 3s infinite;
+}
+
 @keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
-      }
-    
-      70% {
-        box-shadow: 0 0 0 10px rgb(59, 130, 246, 0);
-      }
-    
-      100% {
-        box-shadow: 0 0 0 0 rgb(59, 130, 246, 0);
-      }
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgb(59, 130, 246, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgb(59, 130, 246, 0);
+  }
 }
 
 .ant-picker-year-btn {
-    display: none !important;
+  display: none !important;
 }
 
 .ant-picker-header-super-next-btn {
-    display: none !important;
+  display: none !important;
 }
 
 .ant-picker-header-super-prev-btn {
-    display: none !important;
+  display: none !important;
+}
+
+.custom-modal .ant-modal-content {
+  padding: 0px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.custom-modal .ant-modal-header {
+  height: 50px;
+  padding-left: 20px;
+  display: flex;
+  margin-bottom: 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-modal .ant-modal-footer {
+  padding: 20px;
 }

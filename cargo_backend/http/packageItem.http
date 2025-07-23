@@ -32,15 +32,15 @@ Content-Type: application/json
   "weight": 8,
   "length": 50,
   "phone": "96268444",
-  "registeredById": 1,
-  "warehouseId": 1,
-  "organizationId": 1,
+  "registeredById": 1, //payload дээр
+  "warehouseId": 1, //payload дээр
+  "organizationId": 1, //payload дээр
   "trackCode": "YB35218856",
-  "price": 5000,
+  "price": 5000, //payload дээр
   "notes": "test 1 бараа",
-  "isExpress": false,
+  "isExpress": false, // payload дээр false
   "broken": false,
-  "deliveryRequested": false
+  "deliveryRequested": false // payload дээр false
 }
 
 

@@ -33,6 +33,22 @@ export type WarehouseFieldType = {
     weekends: string
   }
 }
+export type PackageFieldType = {
+  height: number
+  width: number
+  weight: number
+  length: number
+  phone: string
+  registeredById: number
+  warehouseId: number
+  organizationId: number
+  trackCode: string
+  price: number
+  notes: string
+  isExpress: boolean
+  broken: boolean
+  deliveryRequested: boolean
+}
 
 export enum WarehouseType {
   NORMAL = 'NORMAL', // Энгийн агуулах

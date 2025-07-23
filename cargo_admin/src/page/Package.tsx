@@ -7,6 +7,7 @@ import axios from 'axios'
 import config, { requestHeader } from '../config'
 import OrganizationContext from '../context/OrganizationProvider'
 import WarehouseFormModal from '../component/WarehouseFormModal'
+import PackageFormModal from '../component/PackageFormModal'
 
 const Package = () => {
   const { org } = useContext(OrganizationContext)
@@ -157,7 +158,7 @@ const Package = () => {
         loading={false}
         extra={
           <Button type="primary" onClick={() => updateEdit({ visible: true })} icon={<PlusOutlined />}>
-            Агуулах нэмэх
+            Бараа нэмэх
           </Button>
         }
       >
@@ -172,8 +173,7 @@ const Package = () => {
       </Card>
 
       {edit?.visible && (
-        <WarehouseFormModal
-          title="Салбар нэмэх"
+        <PackageFormModal
           open={edit.visible}
           id={edit?.id}
           onClose={() => updateEdit({ visible: false })}
