@@ -19,45 +19,68 @@ export class CreatePackageItemDto {
   @IsNumber() organizationId: number;
 
   @IsNotEmpty()
-  @IsString() phone: string;
+  @IsString()
+  phone: string;
 
   @IsString() trackCode: string;
 
   @IsOptional()
-  @IsString() notes?: string;
+  @IsString()
+  notes?: string;
 
   @IsOptional()
-  @IsString() image?: string;
+  @IsString()
+  image?: string;
 
   @IsOptional()
   @IsEnum(ItemStatus)
   status: ItemStatus;
 
   @IsOptional()
-  @IsBoolean() isExpress?: boolean;
+  @IsBoolean()
+  isExpress?: boolean;
 
   @IsOptional()
-  @IsBoolean() broken?: boolean;
+  @IsBoolean()
+  broken?: boolean;
 }
 
 export class PackageItemFilterDto {
+  @IsOptional()
+  @IsString()
+  phone?: string;
 
   @IsOptional()
-  @IsString() phone?: string;
-
-  @IsOptional()
-  @IsString() trackCode?: string;
+  @IsString()
+  trackCode?: string;
 
   @IsOptional()
   @IsEnum(ItemStatus)
   status?: ItemStatus;
 }
+export class PackageFilterAdminDto {
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  trackCode?: string;
+
+  @IsOptional()
+  @IsEnum(ItemStatus)
+  status?: ItemStatus;
+
+  @IsOptional()
+  @IsString()
+  search?: string;
+}
 export class CheckPackageInputDto {
+  @IsOptional()
+  @IsString()
+  phone?: string;
 
   @IsOptional()
-  @IsString() phone?: string;
-
-  @IsOptional()
-  @IsString() trackCode?: string;
-
+  @IsString()
+  trackCode?: string;
 }

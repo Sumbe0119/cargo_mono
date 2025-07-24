@@ -1,17 +1,16 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, notification, Popconfirm, Table, Tag } from 'antd'
-import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
+import { Breadcrumb, Button, Card, notification, Popconfirm, Table } from 'antd'
+import { useCallback, useEffect, useState } from 'react'
 import { EditModalType, ListState } from '../utils/commonTypes'
 import { errorHandler } from '../component/Utilities'
 import axios from 'axios'
 import config, { requestHeader } from '../config'
-import OrganizationContext from '../context/OrganizationProvider'
-import WarehouseFormModal from '../component/WarehouseFormModal'
 import PackageFormModal from '../component/PackageFormModal'
+import { Link, useParams } from 'react-router'
 
 const Package = () => {
-  const { org } = useContext(OrganizationContext)
 
+  const { warehouseId } = useParams()
   const [edit, updateEdit] = useState<EditModalType>({ visible: false })
   const [state, updateState] = useState<ListState>({
     loading: true,
@@ -25,13 +24,14 @@ const Package = () => {
 
     try {
       const { data } = await axios.get(
-        `${config.get('API_BASE_URL')}/package`,
+        `${config.get('API_BASE_URL')}/package/list/${warehouseId}?&state=ACTIVE&page=1&size=10`,
         requestHeader,
       )
 
       updateState({
         loading: false,
         list: data.list || [],
+        total: data.total || 0,
       })
     } catch (err) {
       updateState((prev) => ({ ...prev, loading: false }))
@@ -151,10 +151,24 @@ const Package = () => {
   ]
 
   return (
-    <Fragment>
+    <div className='p-4 space-y-4'>
+      <Breadcrumb
+        separator=">"
+        items={[
+          {
+            title: <Link to="/">Нүүр</Link>,
+          },
+          {
+            title: <Link to="/selectWarehouse">Агуулгын жагсаалт</Link>,
+          },
+          {
+            title: 'Барааны жагсаалт',
+          },
+        ]}
+      />
       <Card
         className="full-card"
-        title="Агуулхын жагсаалт"
+        title={`Барааны жагсаалт ${state?.total ?? 0}`}
         loading={false}
         extra={
           <Button type="primary" onClick={() => updateEdit({ visible: true })} icon={<PlusOutlined />}>
@@ -180,7 +194,7 @@ const Package = () => {
           refetch={() => fetchList()}
         />
       )}
-    </Fragment>
+    </div>
   )
 }
 

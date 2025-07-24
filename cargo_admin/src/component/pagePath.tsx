@@ -3,7 +3,7 @@ const PagePaths = {
   home: '/',
   cargoAddress: '/cargoAddress',
   organization: '/organization',
-  package: '/package',
+  package: '/selectWarehouse',
   logOut: '/logOut',
   login: '/login',
   warehouse: '/warehouse',

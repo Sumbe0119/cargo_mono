@@ -17,7 +17,7 @@ import { WarehouseService } from '../warehouse/warehouse.service';
 import { OrganizationService } from '../organization/organization.service';
 import { OrgMemberEntity } from '../org_member/entities/org_member.entity';
 import { CommonState } from 'src/common/enum';
-import { Pagination } from 'src/common/commonReturnTyp.dto';
+import { Pagination } from 'src/common/pagination.dto';
 
 @Injectable()
 export class PackageItemService {
@@ -74,6 +74,42 @@ export class PackageItemService {
     }
     if (input.status) {
       queryBuilder.where('main.status = :status', {
+        status: input.status,
+      });
+    }
+
+    const [list, total] = await queryBuilder
+      .skip(pagination.offset)
+      .take(pagination.size)
+      .getManyAndCount();
+
+    return {
+      list,
+      total,
+    };
+  }
+  async findAllAdmin(
+    warehouseId: number,
+    input: PackageItemFilterDto,
+    pagination: Pagination,
+  ) {
+    const queryBuilder = this.packageRepo
+      .createQueryBuilder('main')
+      .where('main.warehouseId = :warehouseId', { warehouseId })
+      .orderBy('main.createdAt', 'DESC');
+
+    if (input.phone) {
+      queryBuilder.andWhere('main.phone = :phone', { phone: input.phone });
+    }
+
+    if (input.trackCode) {
+      queryBuilder.andWhere('main.trackCode = :trackCode', {
+        trackCode: input.trackCode,
+      });
+    }
+
+    if (input.status) {
+      queryBuilder.andWhere('main.status = :status', {
         status: input.status,
       });
     }

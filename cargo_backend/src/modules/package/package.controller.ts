@@ -10,6 +10,7 @@ import {
   forwardRef,
   BadRequestException,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PackageItemService } from './package.service';
 import {
@@ -17,9 +18,8 @@ import {
   CreatePackageItemDto,
   PackageItemFilterDto,
 } from './dto/createPackage.dto';
-import { UpdatePackageItemDto } from './dto/updatePackage.dto';
 import { OrgMemberService } from '../org_member/org_member.service';
-import { Pagination } from 'src/common/commonReturnTyp.dto';
+import { Pagination } from 'src/common/pagination.dto';
 
 @Controller('package')
 export class PackageItemController {
@@ -41,9 +41,7 @@ export class PackageItemController {
   }
 
   @Post('/check')
-  async checkPackage(
-    @Body() input: CheckPackageInputDto,
-  ) {
+  async checkPackage(@Body() input: CheckPackageInputDto) {
     return this.packageItemService.checkPackage(input);
   }
 
@@ -53,5 +51,19 @@ export class PackageItemController {
     @Query() pagination: Pagination,
   ) {
     return this.packageItemService.findAll(input, pagination);
+  }
+
+  @Get('/list/:warehouseId')
+  public async findAllAdmin(
+    @Param('warehouseId', ParseIntPipe) warehouseId: number,
+    @Query() input: PackageItemFilterDto,
+    @Query() pagination: Pagination,
+  ) {
+    const data = await this.packageItemService.findAllAdmin(
+      warehouseId,
+      input,
+      pagination,
+    );
+    return data;
   }
 }

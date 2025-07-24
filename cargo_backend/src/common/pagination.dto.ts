@@ -1,23 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsBoolean,
-  IsInt,
-  IsNotEmpty,
-  IsObject,
-  IsOptional,
-} from 'class-validator';
-
-export class CommonReturnType {
-  @IsNotEmpty()
-  @IsBoolean()
-  success: boolean;
-
-  @IsNotEmpty()
-  @IsObject()
-  data: object;
-}
-
-export class CommonListReturnType {}
+import { IsInt, IsOptional } from 'class-validator';
 
 export class Pagination {
   @IsOptional()
@@ -34,6 +16,8 @@ export class Pagination {
   @IsInt()
   @Transform(({ value }) => Number(value || '20'))
   get offset(): number {
-    return ((this.page ?? 1) - 1) * (this.size ?? 10);
+    const page = this.page ?? 1;
+    const size = this.size ?? 10;
+    return (page - 1) * size;
   }
 }

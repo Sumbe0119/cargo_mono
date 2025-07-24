@@ -11,6 +11,7 @@ import { PackageFieldType } from '../utils/commonTypes'
 import OrganizationContext from '../context/OrganizationProvider'
 import { MoneyIcon } from '../utils/icons'
 import { getFormatMoney } from '../utils/common'
+import { useParams } from 'react-router'
 
 dayjs.locale('mn')
 dayjs.extend(dayLocaleData)
@@ -22,11 +23,17 @@ interface ModalProps {
   refetch: () => void
 }
 
-const PackageFormModal = ({ open, onClose, id, refetch }: ModalProps) => {
+const PackageFormModal = ({ open, onClose, refetch, id }: ModalProps) => {
 
+  const { warehouseId } = useParams()
   const { org } = useContext(OrganizationContext)
+
+
+
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm<PackageFieldType>()
+  const [currency, setCurrency] = useState<any>()
+  console.log("🚀 ~ PackageFormModal ~ currency:", currency)
 
   const fetchWarehouse = useCallback(async (id: number) => {
     setLoading(true)
@@ -35,7 +42,7 @@ const PackageFormModal = ({ open, onClose, id, refetch }: ModalProps) => {
         `${config.get('API_BASE_URL')}/warehouse/${id}`,
         requestHeader,
       )
-      form.setFieldsValue(data?.data)
+      setCurrency(data?.data?.currency)
     } catch (err) {
       errorHandler(err)
     } finally {
@@ -44,51 +51,74 @@ const PackageFormModal = ({ open, onClose, id, refetch }: ModalProps) => {
   }, [form])
 
   useEffect(() => {
-    if (id) {
-      fetchWarehouse(id)
-    } else {
-      form.resetFields()
+    if (!id) {
+      if (warehouseId) {
+        fetchWarehouse(+warehouseId);
+        return
+      }
+
+      notification.error({
+        message: 'Алдаа',
+        description: 'WAREHOUSEID олдсонгүй',
+      });
     }
-  }, [id, form])
+  }, [id, warehouseId]);
+
 
   const handleSubmit = async () => {
     try {
       const data = await form.validateFields()
 
+      if (!currency) {
+        notification.error({
+          message: 'Алдаа',
+          description: 'Валютын мэдээлэл олдсонгүй',
+        });
+        return;
+      }
+
+
+      const volumeM3 =
+        (data.height / 100) *
+        (data.length / 100) *
+        (data.width / 100);
+
+
+      const priceByKg = data?.weight * currency?.kg;
+      const priceByM3 = volumeM3 * (currency?.m3 * currency?.rate);
+
+
       const payload = {
         ...data,
         registeredById: 1,
-        warehouseId: 1,
-        organizationId: 1,
-        trackCode: "YB35218856",
-        price: 5000,
-        notes: "test 1 бараа",
+        warehouseId: Number(warehouseId),
+        organizationId: Number(org?.id),
+        price: Math.ceil(Math.max(priceByKg, priceByM3) / 100) * 100,
         isExpress: false,
-        broken: false,
         deliveryRequested: false
-
       }
+      console.log("🚀 ~ handleSubmit ~ payload:", payload)
 
-      if (id) {
-        await axios.put(
-          `${config.get('API_BASE_URL')}/warehouse/${id}`,
-          payload,
-          requestHeader
-        )
-      } else {
-        await axios.post(
-          `${config.get('API_BASE_URL')}/package`,
-          payload,
-          requestHeader
-        )
-      }
+
+
+      // if (id) {
+      //   await axios.put(
+      //     `${config.get('API_BASE_URL')}/warehouse/${id}`,
+      //     payload,
+      //     requestHeader
+      //   )
+      // } else {
+      //   await axios.post(
+      //     `${config.get('API_BASE_URL')}/package`,
+      //     payload,
+      //     requestHeader
+      //   )
+      // }
 
       notification.success({ message: 'Амжилттай хадгаллаа' })
       onClose()
       refetch()
     } catch (err: any) {
-      console.log("🚀 ~ handleSubmit ~ err:", err)
-
       notification.error({
         message: 'Хэрэглэгчийг таньсангүй.',
         description: err.error || errorHandler(err)
