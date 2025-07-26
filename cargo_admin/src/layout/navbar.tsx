@@ -23,13 +23,13 @@ const menus = [
   {
     key: 'warehouse',
     url: PagePath.warehouse,
-    label: 'Салбар',
+    label: 'Агуулах',
     icon: <ApartmentOutlined />,
   },
   {
     key: 'cargoAddress',
     url: PagePath.cargoAddress,
-    label: 'Агуулхын хаяг',
+    label: 'Карго хаяг',
     icon: <ProjectOutlined />
   },
   {

@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, notification, Popconfirm, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Card, notification, Popconfirm, Table, Tag } from 'antd'
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react'
 import { EditModalType, ListState, WarehouseType } from '../utils/commonTypes'
 import { errorHandler } from '../component/Utilities'
@@ -7,6 +7,7 @@ import axios from 'axios'
 import config, { requestHeader } from '../config'
 import OrganizationContext from '../context/OrganizationProvider'
 import WarehouseFormModal from '../component/WarehouseFormModal'
+import { Link } from 'react-router'
 
 const Warehouse = () => {
   const { org } = useContext(OrganizationContext)
@@ -17,9 +18,7 @@ const Warehouse = () => {
     list: [],
   })
 
-
   const fetchList = useCallback(async () => {
-
     updateState((prev) => ({ ...prev, loading: true }))
 
     try {
@@ -41,7 +40,6 @@ const Warehouse = () => {
   useEffect(() => {
     fetchList()
   }, [])
-
 
   const removeItem = useCallback(async (id: any) => {
     try {
@@ -83,9 +81,8 @@ const Warehouse = () => {
           <Tag color={type == WarehouseType.NORMAL ? 'blue' : 'magenta'}>
             {type == WarehouseType.NORMAL ? 'Энгийн' : 'Шуурхай'}
           </Tag>
-
         )
-      }
+      },
     },
     {
       title: 'Холбоо барих',
@@ -93,19 +90,18 @@ const Warehouse = () => {
       key: 'contactInfo',
       render: (record: any) => {
         return (
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-2'>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
               <p>Утас:</p>
               {record?.phone}
             </div>
-            <div className='flex gap-2'>
+            <div className="flex gap-2">
               <p>Имэйл:</p>
               {record?.email}
             </div>
-
           </div>
         )
-      }
+      },
     },
     {
       title: 'Ажлын цаг',
@@ -113,19 +109,18 @@ const Warehouse = () => {
       key: 'operatingHours',
       render: (record: any) => {
         return (
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-2'>
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
               <p>Ажлын өдөр:</p>
               {record?.weekdays}
             </div>
-            <div className='flex gap-2'>
+            <div className="flex gap-2">
               <p>Амралтын өдөр:</p>
               {record?.weekends}
             </div>
-
           </div>
         )
-      }
+      },
     },
     {
       title: 'Юань Ханш',
@@ -133,30 +128,28 @@ const Warehouse = () => {
       key: 'currency',
       render: (record: any) => {
         return (
-          <div className='flex flex-col gap-2 items-start'>
-            <div className='flex items-center gap-2'>
-              <div className='flex gap-2'>
+          <div className="flex flex-col gap-2 items-start">
+            <div className="flex items-center gap-2">
+              <div className="flex gap-2">
                 <p>Кг:</p>
                 {record?.kg}MNT
               </div>
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <p>м3:</p>
                 {record?.m3}CYN
               </div>
             </div>
-            <div className='flex items-center justify-center gap-2'>
-              Үнэлгээ : {record?.rate}MNT
-            </div>
+            <div className="flex items-center justify-center gap-2">Үнэлгээ : {record?.rate}MNT</div>
           </div>
         )
-      }
+      },
     },
     {
       title: 'Үйлдэл',
       width: 150,
       render: (record: any) => {
         return (
-          <div className='flex flex-col gap-3'>
+          <div className="flex flex-col gap-3">
             <Button onClick={() => updateEdit({ visible: true, id: record?.id })} size="small" icon={<EditOutlined />}>
               Засах
             </Button>
@@ -179,7 +172,18 @@ const Warehouse = () => {
   ]
 
   return (
-    <Fragment>
+    <div className="p-4 space-y-4">
+      <Breadcrumb
+        separator=">"
+        items={[
+          {
+            title: <Link to="/">Нүүр</Link>,
+          },
+          {
+            title: <Link to="/warehouse">Агуулгын жагсаалт</Link>,
+          },
+        ]}
+      />
       <Card
         className="full-card"
         title="Агуулхын жагсаалт"
@@ -209,7 +213,7 @@ const Warehouse = () => {
           refetch={() => fetchList()}
         />
       )}
-    </Fragment>
+    </div>
   )
 }
 

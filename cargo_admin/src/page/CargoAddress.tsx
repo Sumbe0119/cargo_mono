@@ -1,11 +1,12 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Card, Flex, notification, Popconfirm, Table } from 'antd'
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Breadcrumb, Button, Card, Flex, notification, Popconfirm, Table } from 'antd'
+import { useCallback, useEffect, useState } from 'react'
 import CargoAddressFormModal from '../component/CargoAddressFormModal'
 import { EditModalType, ListState } from '../utils/commonTypes'
 import axios from 'axios'
 import config, { requestHeader } from '../config'
 import { errorHandler } from '../component/Utilities'
+import { Link } from 'react-router'
 
 const CargoAddress = () => {
   const warehouseId = 1
@@ -17,7 +18,6 @@ const CargoAddress = () => {
   })
 
   const fetchList = useCallback(async () => {
-
     updateState((prev) => ({ ...prev, loading: true }))
 
     try {
@@ -107,7 +107,18 @@ const CargoAddress = () => {
   ]
 
   return (
-    <Fragment>
+    <div className="p-4 space-y-4">
+      <Breadcrumb
+        separator=">"
+        items={[
+          {
+            title: <Link to="/">Нүүр</Link>,
+          },
+          {
+            title: <Link to="/cargoAddress">Карго хаяг</Link>,
+          },
+        ]}
+      />
       <Card
         className="full-card"
         title="Хаяг жагсаалт"
@@ -137,7 +148,7 @@ const CargoAddress = () => {
           refetch={() => fetchList()}
         />
       )}
-    </Fragment>
+    </div>
   )
 }
 
