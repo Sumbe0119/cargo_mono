@@ -1,3 +1,5 @@
+import { ItemStatus } from "./enum"
+
 export interface EditModalType {
   visible: boolean
   id?: number
@@ -9,6 +11,11 @@ export interface ListState {
   total?: number
   page?: number
   error?: any
+}
+export interface Filter {
+  page: number
+  size: number
+  status?: string
 }
 
 export type WarehouseFieldType = {
@@ -34,6 +41,7 @@ export type WarehouseFieldType = {
   }
 }
 export type PackageFieldType = {
+  id: number
   height: number
   width: number
   weight: number
@@ -48,6 +56,8 @@ export type PackageFieldType = {
   isExpress: boolean
   broken: boolean
   deliveryRequested: boolean
+  
+  status?: ItemStatus
 }
 
 export enum WarehouseType {
@@ -56,3 +66,4 @@ export enum WarehouseType {
   // COLD = 'cold', // Хүйтэн цех
   // DANGEROUS = 'dangerous' // Аюултай материал
 }
+

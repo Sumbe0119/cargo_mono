@@ -3,6 +3,7 @@ import {
   forwardRef,
   Inject,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import {
   CreatePackageItemDto,
@@ -11,12 +12,17 @@ import {
 import { UpdatePackageItemDto } from './dto/updatePackage.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PackageItem } from './entities/package.entity';
-import { Repository } from 'typeorm';
+import {
+  FindOptionsRelations,
+  FindOptionsWhere,
+  In,
+  Repository,
+} from 'typeorm';
 import { OrgMemberService } from '../org_member/org_member.service';
 import { WarehouseService } from '../warehouse/warehouse.service';
 import { OrganizationService } from '../organization/organization.service';
 import { OrgMemberEntity } from '../org_member/entities/org_member.entity';
-import { CommonState } from 'src/common/enum';
+import { CommonState, ItemStatus } from 'src/common/enum';
 import { Pagination } from 'src/common/pagination.dto';
 
 @Injectable()
@@ -30,6 +36,18 @@ export class PackageItemService {
     @Inject(forwardRef(() => OrganizationService))
     private readonly orgService: OrganizationService,
   ) {}
+
+  async getOne(
+    where?: FindOptionsWhere<PackageItem>,
+    relations?: FindOptionsRelations<PackageItem>,
+  ) {
+    where = {
+      ...where,
+      state: CommonState.ACTIVE,
+    };
+
+    return this.packageRepo.findOne({ where, relations });
+  }
 
   async create(
     input: CreatePackageItemDto,
@@ -97,14 +115,15 @@ export class PackageItemService {
       .createQueryBuilder('main')
       .where('main.warehouseId = :warehouseId', { warehouseId })
       .orderBy('main.createdAt', 'DESC');
-
     if (input.phone) {
-      queryBuilder.andWhere('main.phone = :phone', { phone: input.phone });
+      queryBuilder.andWhere('main.phone LIKE :phone', {
+        phone: `%${input.phone}%`,
+      });
     }
 
     if (input.trackCode) {
-      queryBuilder.andWhere('main.trackCode = :trackCode', {
-        trackCode: input.trackCode,
+      queryBuilder.andWhere('main.trackCode LIKE :trackCode', {
+        trackCode: `%${input.trackCode}%`,
       });
     }
 
@@ -147,12 +166,29 @@ export class PackageItemService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} packageItem`;
-  }
+  public async update(id: number, input: UpdatePackageItemDto) {
+    const result = await this.packageRepo.update(id, {
+      ...input,
+    });
 
-  update(id: number, updatePackageItemDto: UpdatePackageItemDto) {
-    return `This action updates a #${id} packageItem`;
+    if (result.affected === 0) {
+      throw new NotFoundException('Package not updated');
+    }
+    const updated = await this.packageRepo.findOne({
+      where: { id },
+    });
+
+    return updated;
+  }
+  public async multipleStatusUpdate(
+    ids: number[],
+    status: ItemStatus,
+  ): Promise<PackageItem[]> {
+    await this.packageRepo.update(ids, { status });
+
+    // Шинэчилсэн бараануудыг буцаах
+    const update = await this.packageRepo.findBy({ id: In(ids) });
+    return update;
   }
 
   remove(id: number) {

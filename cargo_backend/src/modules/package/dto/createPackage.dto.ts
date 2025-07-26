@@ -9,10 +9,18 @@ import {
 import { ItemStatus } from 'src/common/enum';
 
 export class CreatePackageItemDto {
-  @IsNumber() height: number;
-  @IsNumber() width: number;
-  @IsNumber() weight: number;
-  @IsNumber() length: number;
+  @IsNumber()
+  @IsNotEmpty()
+  height: number;
+  @IsNumber()
+  @IsNotEmpty()
+  width: number;
+  @IsNumber()
+  @IsNotEmpty()
+  weight: number;
+  @IsNumber()
+  @IsNotEmpty()
+  length: number;
 
   @IsNumber() registeredById: number;
   @IsNumber() warehouseId: number;

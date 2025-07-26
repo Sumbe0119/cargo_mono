@@ -18,6 +18,7 @@ dayjs.locale('mn')
 dayjs.extend(dayLocaleData)
 
 interface ModalProps {
+  id?: number
   open: boolean
   onClose: () => void
   refetch: () => void
@@ -30,7 +31,7 @@ interface BoxDimensions {
   weight: number
 }
 
-const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
+const PackageUpdateModal = ({ open, onClose, refetch, id }: ModalProps) => {
   const { warehouseId } = useParams()
   const { org } = useContext(OrganizationContext)
   const { user } = useContext(UserContext)
@@ -38,6 +39,8 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm<PackageFieldType>()
   const [currency, setCurrency] = useState<any>()
+  console.log('🚀 ~ PackageUpdateModal ~ currency:', currency)
+  // const [price, setPrice] = useState<number>()
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [dimensions, setDimensions] = useState<BoxDimensions>({
@@ -46,6 +49,7 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
     length: 0,
     width: 0,
   })
+  console.log('🚀 ~ PackageUpdateModal ~ dimensions:', dimensions)
 
   const fetchWarehouse = useCallback(
     async (id: number) => {
@@ -61,13 +65,38 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
     },
     [form],
   )
+  const fetchPackage = useCallback(
+    async (id: number) => {
+      setLoading(true)
+      try {
+        const { data } = await axios.get(`${config.get('API_BASE_URL')}/package/${id}`, requestHeader)
+        form.setFieldsValue({
+          ...data,
+        })
+        setDimensions({
+          width: Number(data?.width),
+          height: Number(data?.height),
+          length: Number(data?.length),
+          weight: Number(data?.weight),
+        })
+      } catch (err) {
+        errorHandler(err)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [id],
+  )
 
   useEffect(() => {
     if (warehouseId) {
       fetchWarehouse(+warehouseId)
-      return
     }
-  }, [warehouseId])
+    if(id){
+      fetchPackage(+id)
+    }
+    
+  }, [id, warehouseId])
 
   const handleInputChange = (field: keyof BoxDimensions, value: string) => {
     if (!/^\d*\.?\d*$/.test(value)) {
@@ -92,14 +121,14 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
     const priceByM3 = volumeM3 * (currency?.m3 * currency?.rate)
 
     return Math.ceil(Math.max(priceByKg, priceByM3) / 100) * 100
-  }, [dimensions, form])
+  }, [dimensions, id, form])
 
   const handleSubmit = async () => {
     try {
       const data = await form.validateFields()
 
       // eslint-disable-next-line prefer-const
-      let payload: any = {
+      const payload: any = {
         ...data,
         height: Number(data?.height),
         width: Number(data?.width),
@@ -107,16 +136,15 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
         weight: Number(data?.weight),
         registeredById: Number(user?.orgMemberId),
         warehouseId: Number(warehouseId),
-        organizationId: Number(org?.id),
         price: packagePrice,
+        organizationId: Number(org?.id),
         isExpress: false,
         deliveryRequested: false,
       }
 
-      await axios.post(`${config.get('API_BASE_URL')}/package`, payload, requestHeader)
+      await axios.put(`${config.get('API_BASE_URL')}/package/${id}`, payload, requestHeader)
 
       notification.success({ message: `Амжилттай`, description: 'хадгаллаа' })
-      console.log('✅ Амжилттай хадгаллаа')
       onClose()
       refetch()
     } catch (err: any) {
@@ -129,12 +157,12 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
 
   return (
     <Modal
-      title={'Бараа бүртгэх'}
+      title={'Бараа засах'}
       open={open}
       onOk={handleSubmit}
       closable
       onCancel={onClose}
-      okText={'Бүртгэх'}
+      okText={'Хадгалах'}
       cancelText="Хаах"
       className="custom-modal"
     >
@@ -241,4 +269,4 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
   )
 }
 
-export default PackageFormModal
+export default PackageUpdateModal

@@ -46,5 +46,32 @@ Content-Type: application/json
   "deliveryRequested": false // payload дээр false
 }
 
+### update
+PUT {{localUrl}}/package/17
+Content-Type: application/json
+
+{
+  "height": 20,
+  "width": 10,
+  "weight": 8,
+  "length": 50,
+  "phone": "96268444",
+  "registeredById": 1,
+  "organizationId": 1,
+  "price": 5000,
+  "status": "RECEIVED",
+  "notes": "Жижиг саарал уут",
+  "isExpress": false,
+  "broken": false,
+  "deliveryRequested": false
+}
 
 
+### Update multiple package item statuses
+PUT {{localUrl}}/package/multiple-status-update
+Content-Type: application/json
+
+{
+  "ids": [16, 14, 13],
+  "status": "FINISHED"
+}

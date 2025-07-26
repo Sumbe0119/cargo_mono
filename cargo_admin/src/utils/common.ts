@@ -13,3 +13,4 @@ export const getFormatMoney = (price: any) => {
     return pieces.length > 0 ? pieces.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + '₮' : ' '
   }
 }
+
