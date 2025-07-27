@@ -30,7 +30,7 @@ interface BoxDimensions {
   weight: number
 }
 
-const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
+const PackageCreateModal = ({ open, onClose, refetch }: ModalProps) => {
   const { warehouseId } = useParams()
   const { org } = useContext(OrganizationContext)
   const { user } = useContext(UserContext)
@@ -241,4 +241,4 @@ const PackageFormModal = ({ open, onClose, refetch }: ModalProps) => {
   )
 }
 
-export default PackageFormModal
+export default PackageCreateModal

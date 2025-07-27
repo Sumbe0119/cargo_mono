@@ -22,6 +22,7 @@ import { UploadModule } from './modules/upload/upload.module';
 import { CargoAddressModule } from './modules/cargoAddress/cargoAddress.module';
 import { CargoAddressEntity } from './modules/cargoAddress/entities/cargoAddress.entity';
 import { BotModule } from './modules/bot/bot.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 const path = require('path');
 
 @Module({
@@ -61,6 +62,7 @@ const path = require('path');
     WarehouseModule,
     UploadModule,
     CargoAddressModule,
+    DashboardModule,
 
     BotModule, //ssr zaawal hamgiin door baina
   ],

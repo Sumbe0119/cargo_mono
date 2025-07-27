@@ -1,10 +1,4 @@
-import {
-  BarcodeOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  PhoneOutlined,
-  PlusOutlined,
-} from '@ant-design/icons'
+import { BarcodeOutlined, DeleteOutlined, EditOutlined, PhoneOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   Breadcrumb,
   Button,
@@ -30,7 +24,10 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import PackageUpdateModal from '../component/PackageUpdateModal'
-import PackageFormModal from '../component/PackageFormModal'
+import PackageCreateModal from '../component/PackageCreateModal'
+import { render } from 'react-dom'
+import { getFormatMoney } from '../utils/common'
+import dayjs from 'dayjs'
 
 const filterOptions = [
   {
@@ -74,7 +71,6 @@ const Package = () => {
     page: 1,
     size: 10,
   })
-  console.log("🚀 ~ Package ~ filter:", filter)
 
   const fetchList = useCallback(async () => {
     updateState((prev) => ({ ...prev, loading: true }))
@@ -196,6 +192,9 @@ const Package = () => {
       title: 'Үнэ',
       dataIndex: 'price',
       key: 'price',
+      render: (price: number) => {
+        return <p>{getFormatMoney(price)}</p>
+      },
     },
     {
       title: 'Баркод',
@@ -230,6 +229,15 @@ const Package = () => {
 
       render: (broken: boolean) => {
         return <Tag color={broken ? 'red' : 'green'}>{broken ? 'Тийм' : 'Үгүй'}</Tag>
+      },
+    },
+    {
+      title: 'Огноо',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+
+      render: (date: string) => {
+        return <span className="text-xs"> {dayjs(date).format('YYYY.MM.DD')}</span>
       },
     },
     {
@@ -390,7 +398,7 @@ const Package = () => {
         />
       </Card>
 
-      {create && <PackageFormModal open={create} onClose={() => setCreate(false)} refetch={() => fetchList()} />}
+      {create && <PackageCreateModal open={create} onClose={() => setCreate(false)} refetch={() => fetchList()} />}
       {edit?.visible && (
         <PackageUpdateModal
           open={edit.visible}

@@ -1,0 +1,19 @@
+@localUrl = http://localhost:8082/api
+@baseUrl = 
+@accessToken=
+
+### login
+POST {{localUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "phone": "86662422",
+  "password": "admin$123"
+}
+
+### getOne 
+GET  {{localUrl}}/dashboard/1/summary
+
+
+### getOne 
+GET  {{localUrl}}/dashboard/1/packages/monthly-count

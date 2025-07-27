@@ -17,7 +17,7 @@ const menus = [
   {
     key: 'Home',
     url: PagePath.home,
-    label: 'Эхлэх',
+    label: 'Хянах самбар',
     icon: <HomeOutlined />,
   },
   {
