@@ -183,12 +183,12 @@ const Home = () => {
           <Col span={12} xs={24} lg={12}>
             {totalLoading ? <Skeleton /> : <TotalItemCountChartComponent row={totalRow} />}
           </Col>
-          <Col span={12} xs={24} lg={12}>
+          {/* <Col span={12} xs={24} lg={12}>
             {totalLoading ? <Skeleton /> : <DelivredCountChartComponent row={totalRow} />}
           </Col>
           <Col span={12} xs={24} lg={12}>
             {totalLoading ? <Skeleton /> : <BrokenChart row={totalRow} />}
-          </Col>
+          </Col> */}
         </Row>
 
         <Row gutter={16}>

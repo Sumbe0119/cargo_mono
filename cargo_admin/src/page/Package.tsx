@@ -228,7 +228,7 @@ const Package = () => {
       key: 'broken',
 
       render: (broken: boolean) => {
-        return <Tag color={broken ? 'red' : 'green'}>{broken ? 'Тийм' : 'Үгүй'}</Tag>
+        return <Tag color={broken ? 'red' : 'blue'}>{broken ? 'Тийм' : 'Үгүй'}</Tag>
       },
     },
     {
