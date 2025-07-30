@@ -1,23 +1,45 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SideMenuProvider } from './providers/SideMenuProvider'
 import { AppRoutes } from './routes'
 import OrganizationContext from './context/OrganizationProvider'
 import UserContext from './context/UserProvider'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import axios from 'axios'
+import config, { requestHeader } from './config'
 interface State {
   loading: boolean
   user?: any
 }
 
 function App() {
-  // const [state, updateState] = useState<State>({ loading: true, user: null })
+
   const [state, updateState] = useState<State>({
     loading: true,
   })
+  // const { pathname } = useLocation();
+
   useEffect(() => {
-    // loadUser();
+    loadUser();
   }, [])
-  const queryClient = new QueryClient()
+
+
+  const loadUser = useCallback(async () => {
+    updateState({ ...state, loading: true });
+    try {
+      const { data } = await axios.get(
+        `${config.get('API_BASE_URL')}/auth/info`,
+        requestHeader,
+      )
+      if (data.role === 'ADMIN' || data.role === 'MANAGER') {
+        updateState({ loading: false, user: data });
+      } else {
+        updateState({ loading: false, user: null });
+      }
+    } catch (e) {
+      updateState({ loading: false, user: null });
+    }
+  }, [state]);
+
+
   const main = {
     id: 1,
     name: 'Тод од карго / Tod od cargo ',
@@ -43,15 +65,15 @@ function App() {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <UserContext.Provider value={{ user: state?.user, changeUser: (user) => updateState({ ...state, user }) }}>
-          <OrganizationContext.Provider value={{ org: main }}>
-            <SideMenuProvider>
-              <AppRoutes />
-            </SideMenuProvider>
-          </OrganizationContext.Provider>
-        </UserContext.Provider>
-      </QueryClientProvider>
+
+      <UserContext.Provider value={{ user: state?.user, changeUser: (user) => updateState({ ...state, user }) }}>
+        <OrganizationContext.Provider value={{ org: main }}>
+          <SideMenuProvider>
+            <AppRoutes />
+          </SideMenuProvider>
+        </OrganizationContext.Provider>
+      </UserContext.Provider>
+
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserService } from '../user/user.service';
@@ -20,6 +20,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   private expiresIn: string | number;
   private secret: string | Buffer;
+  private readonly logger = new Logger(AuthService.name);
 
   constructor(
     @InjectRepository(UserEntity)
@@ -50,14 +51,6 @@ export class AuthService {
       throw new HttpException(
         'Нэвтрэх нэр эсвэл нууц үг буруу байна',
         HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    // Add explicit check for password existence
-    if (!user.password) {
-      throw new HttpException(
-        'Нууц үг олдсонгүй',
-        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
 

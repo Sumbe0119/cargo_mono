@@ -23,13 +23,15 @@ import {
   AuthRegisterDto,
 } from './dto/create-auth.dto';
 import { AuthService } from './auth.service';
-import moment from 'moment-timezone';
+// import moment from 'moment-timezone';
+import * as moment from 'moment-timezone';
 import { UserEntity } from '../user/entities/user.entity';
 
 import * as requestIp from 'request-ip';
 import { IpInfoService } from '../integrations/ip.info.service';
 // import { UserGuard } from './guard/user.guard';
 import { GetUser } from './decorator/user.decorator';
+import { UserGuard } from './guard/user.guard';
 
 @Controller('/auth')
 export class AuthController {
@@ -41,7 +43,7 @@ export class AuthController {
   ) {}
 
   @Get('info')
-  // @UseGuards(UserGuard)
+  @UseGuards(UserGuard)
   public async info(@GetUser() user: UserEntity) {
     return user;
   }
@@ -65,11 +67,11 @@ export class AuthController {
         secure: true,
         expires: moment().add(3, 'day').toDate(),
       });
-      res.send({ success: true, tokenName: 'mzm_tkn', token: token, user });
+      res.send({ success: true, tokenName: 'mybox_tkn', token: token, user });
     } catch (error: any) {
       this.logger.error(
         `Login failed for phone ${input.phone}: ${error.stack}`,
-      ); 
+      );
       throw new HttpException(
         error.message || 'System error',
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,

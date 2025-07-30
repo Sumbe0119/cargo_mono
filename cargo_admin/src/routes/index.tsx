@@ -2,7 +2,7 @@
 import Home from '../page/Home'
 import AppLayout from '../layout'
 import List from '../page/List'
-import { Navigate, Route, Routes } from 'react-router'
+import { Route, Routes } from 'react-router'
 import Organization from '../page/Organization'
 import CargoAddress from '../page/CargoAddress'
 import Warehouse from '../page/Warehouse'
@@ -27,10 +27,8 @@ export function AppRoutes() {
           <Route path="/list" element={<List />} />
         </Route>
       ) : (
-        <Route path="/" element={<LoginPage />} />
+        <Route path="*" element={<LoginPage />} />
       )}
-
-      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )
 }

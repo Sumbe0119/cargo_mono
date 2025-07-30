@@ -1,20 +1,32 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Form, Input, Button, Typography, notification } from 'antd'
 import axios from 'axios'
 import config, { requestHeader } from '../config'
 import { errorHandler } from '../component/Utilities'
+import UserContext from '../context/UserProvider'
+import { useNavigate } from 'react-router'
 
 const { Title } = Typography
 
 const LoginForm: React.FC = () => {
+  const { changeUser } = useContext(UserContext)
+  const navigate = useNavigate()
+
   const onFinish = async (values: any) => {
+
+
     try {
-      // eslint-disable-next-line prefer-const
-
       const { data } = await axios.post(`${config.get('API_BASE_URL')}/auth/login`, values, requestHeader)
-      console.log('🚀 ~ onFinish ~ data:', data)
+      notification.success({ message: `Сайн байна уу`, description: ` ${data?.user?.username}` })
 
-      notification.success({ message: `Сайн байна уу`, description: ` ${data?.lastName} ${data?.firstName}` })
+      localStorage.setItem('token', data.token)
+
+      if (changeUser) {
+        changeUser(data?.user)
+      }
+
+      navigate('/')
+
     } catch (err: any) {
       notification.error({
         message: 'Нэвтэрхэд алдаа гарлаа.',
@@ -35,7 +47,7 @@ const LoginForm: React.FC = () => {
             name="phone"
             rules={[
               { required: true, message: 'Утасны дугаараа оруулна уу' },
-              { pattern: /^[0-9]{8}$/, message: '8 оронтой зөв дугаар' },
+              { pattern: /^[0-9]{8}$/, message: 'Дугаараа зөв оруулна уу' },
             ]}
           >
             <Input placeholder="Утасны дугаар" />
