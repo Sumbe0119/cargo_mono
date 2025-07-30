@@ -15,3 +15,4 @@ export class RemuveOrgMemberDto {
   @IsNumber()
   id: number;
 }
+

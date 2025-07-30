@@ -1,4 +1,4 @@
-@localUrl = http://localhost:8080/api
+@localUrl = http://localhost:8082/api
 @baseUrl = 
 @accessToken=
 
@@ -20,6 +20,13 @@ Content-Type: application/json
   "orgId": 1,
   "role": "MEMBER"
 }
+
+
+### getList
+GET {{localUrl}}/orgMember/list/1
+Content-Type: application/json
+
+
 ### create
 DELETE  {{localUrl}}/orgMember/12
 Content-Type: application/json

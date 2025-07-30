@@ -13,16 +13,6 @@ function App() {
   // const [state, updateState] = useState<State>({ loading: true, user: null })
   const [state, updateState] = useState<State>({
     loading: true,
-    user: {
-      id: 1,
-      orgMemberId: 1,
-      username: 'Төгөлдөр Сүмбэ',
-      lastName: 'Төгөлдөр',
-      firstName: 'Сүмбэ',
-      prefix: '976',
-      email: null,
-      state: 'ACTIVE',
-    },
   })
   useEffect(() => {
     // loadUser();

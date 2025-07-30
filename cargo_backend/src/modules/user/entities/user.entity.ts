@@ -1,8 +1,17 @@
-import { Exclude,instanceToPlain } from 'class-transformer';
-import { Entity, BeforeInsert, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany, Index } from 'typeorm';
-import { genSalt, hash, compare } from 'bcrypt';
+import { Exclude, instanceToPlain } from 'class-transformer';
+import {
+  Entity,
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Index,
+} from 'typeorm';
 import { CommonState } from 'src/common/enum';
 import { OrgMemberEntity } from 'src/modules/org_member/entities/org_member.entity';
+import * as bcrypt from 'bcrypt';
 
 const SALT_ROUNDS = 10;
 
@@ -13,14 +22,14 @@ export class UserEntity {
 
   @Column('varchar', { length: 255, nullable: false, unique: true })
   username: string;
-  
-  @Column('varchar', { name: "last_name", length: 255, nullable: true })
+
+  @Column('varchar', { name: 'last_name', length: 255, nullable: true })
   lastName: string | null;
 
-  @Column('varchar', { name: "first_name", length: 255, nullable: true })
+  @Column('varchar', { name: 'first_name', length: 255, nullable: true })
   firstName: string | null;
 
-  @Column('varchar', { name: "prefix", length: 50, nullable: false })
+  @Column('varchar', { name: 'prefix', length: 50, nullable: false })
   prefix: string;
 
   @Column({ nullable: true })
@@ -28,14 +37,18 @@ export class UserEntity {
 
   @Index()
   @Exclude()
-  @Column('varchar', { length: 255, nullable: true })
+  @Column('varchar', { length: 255, nullable: false })
   phone: string | null;
 
   @Exclude()
-  @Column('varchar', { length: 255, nullable: false })
+  @Column('varchar', { length: 255, nullable: false, select: false })
   password: string;
 
-  @Column('enum', { enum: CommonState, default: CommonState.ACTIVE, nullable: false })
+  @Column('enum', {
+    enum: CommonState,
+    default: CommonState.ACTIVE,
+    nullable: false,
+  })
   state: CommonState;
 
   @OneToMany(() => OrgMemberEntity, (orgMember) => orgMember.user)
@@ -50,16 +63,25 @@ export class UserEntity {
   updatedAt: Date;
 
   @BeforeInsert()
-  async hashPassword() {
-    const salt = await genSalt(SALT_ROUNDS);
-    this.password = await hash(this.password, salt);
+  public hashPassword() {
+    const salt = bcrypt.genSaltSync(SALT_ROUNDS);
+    this.password = bcrypt.hashSync(this.password, salt);
   }
 
-  async validPassword(unencryptedPassword: string): Promise<boolean> {
-    return compare(unencryptedPassword, this.password);
+  public hashPasswordUpdate(password: string) {
+    const salt = bcrypt.genSaltSync(SALT_ROUNDS);
+    return bcrypt.hashSync(password, salt);
   }
-  
+
+  validPassword(password: string): boolean {
+    if (!this.password) {
+      console.error('No password set for user');
+      return false;
+    }
+    return bcrypt.compareSync(password, this.password);
+  }
+
   toJSON() {
-    return instanceToPlain(this)
+    return instanceToPlain(this);
   }
 }
